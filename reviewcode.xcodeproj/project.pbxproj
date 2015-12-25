@@ -15,6 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9DCE32CA1C2D2AEF00D6CD65 /* MCXcodeHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCXcodeHeaders.h; sourceTree = "<group>"; };
 		9DD61CEA1C2CF5400060C517 /* reviewcode.xcplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = reviewcode.xcplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DD61CED1C2CF5400060C517 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		9DD61CEF1C2CF5400060C517 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -72,6 +73,7 @@
 				9DD61CF61C2CF5400060C517 /* reviewcode.m */,
 				9DD61CF81C2CF5400060C517 /* NSObject_Extension.h */,
 				9DD61CF91C2CF5400060C517 /* NSObject_Extension.m */,
+				9DCE32CA1C2D2AEF00D6CD65 /* MCXcodeHeaders.h */,
 				9DD61CFB1C2CF5400060C517 /* Info.plist */,
 				9DD61CF21C2CF5400060C517 /* Supporting Files */,
 			);
@@ -283,6 +285,7 @@
 				9DD61D001C2CF5400060C517 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

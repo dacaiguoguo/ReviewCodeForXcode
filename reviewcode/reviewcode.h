@@ -7,6 +7,7 @@
 //
 
 #import <AppKit/AppKit.h>
+#import "MCXcodeHeaders.h"
 
 @class reviewcode;
 
@@ -18,4 +19,8 @@ static reviewcode *sharedPlugin;
 - (id)initWithBundle:(NSBundle *)plugin;
 
 @property (nonatomic, strong, readonly) NSBundle* bundle;
+@end
+
+@interface NSWindowController(mc)
+- (void)mc_windowDidLoad;
 @end

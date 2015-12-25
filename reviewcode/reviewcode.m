@@ -7,6 +7,21 @@
 //
 
 #import "reviewcode.h"
+#import <objc/runtime.h>
+
+void swizzleDVTTextStorage()
+{
+    Class IDESourceControlCommitWindowController = NSClassFromString(@"IDESourceControlCommitWindowController");
+    Method fixAttributesInRange = class_getInstanceMethod(IDESourceControlCommitWindowController, @selector(windowDidLoad));
+    Method swizzledFixAttributesInRange = class_getInstanceMethod(IDESourceControlCommitWindowController, @selector(mc_windowDidLoad));
+    
+    BOOL didAddMethod = class_addMethod(IDESourceControlCommitWindowController, @selector(windowDidLoad), method_getImplementation(swizzledFixAttributesInRange), method_getTypeEncoding(swizzledFixAttributesInRange));
+    if (didAddMethod) {
+        class_replaceMethod(IDESourceControlCommitWindowController, @selector(mc_windowDidLoad), method_getImplementation(fixAttributesInRange), method_getTypeEncoding(swizzledFixAttributesInRange));
+    } else {
+        method_exchangeImplementations(fixAttributesInRange, swizzledFixAttributesInRange);
+    }
+}
 
 @interface reviewcode()
 
@@ -30,6 +45,7 @@
                                                  selector:@selector(didApplicationFinishLaunchingNotification:)
                                                      name:NSApplicationDidFinishLaunchingNotification
                                                    object:nil];
+        swizzleDVTTextStorage();
     }
     return self;
 }
@@ -66,7 +82,36 @@
 
 - (void)notificationLog:(NSNotification *)notify
 {
-    NSLog(@"%@",notify.name);
+    if ([@"IDEIndexWillIndexWorkspaceNotification" isEqualToString:notify.name]) {
+        NSLog(@"%@",notify.object);
+    }
+//    NSLog(@"%@",notify);
+
 }
 
+@end
+
+@implementation NSWindowController(mc)
+
+- (void)mc_windowDidLoad{
+    [self mc_windowDidLoad];
+    NSButton *pushButton = [[NSButton alloc] initWithFrame:NSMakeRect(100, 100, 100, 100)];
+    pushButton.bezelStyle = NSRoundedBezelStyle;
+    [pushButton  setTarget:self];
+    [pushButton setAction:@selector(buttonClick:)];
+    NSView *vvvv = [[self.window.contentView subviews] objectAtIndex:0];
+    [vvvv addSubview:pushButton];
+    [[vvvv subviews] enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[NSButton class]] && idx == 1 ) {
+            pushButton.frame = NSMakeRect(obj.frame.origin.x-obj.frame.size.width*2-20, obj.frame.origin.y, obj.frame.size.width, obj.frame.size.height);
+            pushButton.layer.borderWidth = 1;
+            pushButton.layer.borderColor = [NSColor colorWithDeviceHue:0.02 saturation:0.97 brightness:0.9 alpha:1].CGColor;
+        }
+    }];
+    
+}
+
+- (void)buttonClick:(id)sender {
+    NSLog(@"dacaiguoguo:\n%s\n%@",__func__,sender);
+}
 @end

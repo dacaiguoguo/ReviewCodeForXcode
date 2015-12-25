@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+@import AppKit;
+#import "MCXcodeHeaders.h"
+
 
 @interface NSObject (Xcode_Plugin_Template_Extension)
 
@@ -14,3 +17,13 @@
 
 
 @end
+
+@interface NSView (Dumping)
+
+@end
+
+@interface MCLog : NSObject 
+
+@end
+
+
