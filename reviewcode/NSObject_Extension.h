@@ -19,7 +19,7 @@
 @end
 
 @interface NSView (Dumping)
-
+-(void)dumpWithIndent:(NSString *)indent;
 @end
 
 @interface MCLog : NSObject 

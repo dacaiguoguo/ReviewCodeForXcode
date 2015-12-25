@@ -8,6 +8,7 @@
 
 #import "reviewcode.h"
 #import <objc/runtime.h>
+#import "NSObject_Extension.h"
 
 void swizzleDVTTextStorage()
 {
@@ -98,6 +99,7 @@ void swizzleDVTTextStorage()
     NSButton *pushButton = [[NSButton alloc] initWithFrame:NSMakeRect(100, 100, 100, 100)];
     pushButton.bezelStyle = NSRoundedBezelStyle;
     [pushButton  setTarget:self];
+    [pushButton setTitle:@"review"];
     [pushButton setAction:@selector(buttonClick:)];
     NSView *vvvv = [[self.window.contentView subviews] objectAtIndex:0];
     [vvvv addSubview:pushButton];
@@ -112,6 +114,52 @@ void swizzleDVTTextStorage()
 }
 
 - (void)buttonClick:(id)sender {
-    NSLog(@"dacaiguoguo:\n%s\n%@",__func__,sender);
+    NSMutableDictionary *dictionaryFormat = [NSMutableDictionary dictionary];
+    
+    //  取得当前类类型
+    Class cls = [self class];
+    
+    unsigned int ivarsCnt = 0;
+    //　获取类成员变量列表，ivarsCnt为类成员数量
+    Ivar *ivars = class_copyIvarList(cls, &ivarsCnt);
+    
+    //　遍历成员变量列表，其中每个变量都是Ivar类型的结构体
+    for (const Ivar *p = ivars; p < ivars + ivarsCnt; ++p)
+    {
+        Ivar const ivar = *p;
+        
+        //　获取变量名
+        NSString *key = [NSString stringWithUTF8String:ivar_getName(ivar)];
+        // 若此变量未在类结构体中声明而只声明为Property，则变量名加前缀 '_'下划线
+        // 比如 @property(retain) NSString *abc;则 key == _abc;
+        
+        //　获取变量值
+        id value = [self valueForKey:key];
+        //        if (strstr(ivar_getTypeEncoding(ivar), "OrderTypeChooseView")!= NULL) {
+        //            [value printLvVarListDictionary];
+        //        }
+        //　取得变量类型
+        // 通过 type[0]可以判断其具体的内置类型
+        if (value)
+        {
+            [dictionaryFormat setObject:value forKey:key];
+        }
+    }
+//    NSLog(@"%@",dictionaryFormat);
+    NSView *fileListView = (NSView *)[dictionaryFormat objectForKey:@"_reviewFilesView"];
+    [fileListView dumpWithIndent:@""];
+    [[fileListView subviews] enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSLog(@"%@",obj);
+        [[obj subviews] enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSLog(@"222:%@",obj);
+            [[obj subviews] enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSLog(@"333:%@",obj);
+                [[obj subviews] enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    NSLog(@"444:%@",obj);
+                }];
+            }];
+        }];
+
+    }];
 }
 @end
