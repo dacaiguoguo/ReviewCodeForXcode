@@ -113,11 +113,12 @@ void swizzleDVTTextStorage()
     
 }
 
-- (void)buttonClick:(id)sender {
+- (NSDictionary *)pppp:(id)obj {
+
     NSMutableDictionary *dictionaryFormat = [NSMutableDictionary dictionary];
     
     //  取得当前类类型
-    Class cls = [self class];
+    Class cls = [obj class];
     
     unsigned int ivarsCnt = 0;
     //　获取类成员变量列表，ivarsCnt为类成员数量
@@ -134,10 +135,16 @@ void swizzleDVTTextStorage()
         // 比如 @property(retain) NSString *abc;则 key == _abc;
         
         //　获取变量值
-        id value = [self valueForKey:key];
-        //        if (strstr(ivar_getTypeEncoding(ivar), "OrderTypeChooseView")!= NULL) {
-        //            [value printLvVarListDictionary];
-        //        }
+        id value;
+        @try {
+             value = [obj valueForKey:key];
+        }
+        @catch (NSException *exception) {
+            
+        }
+        @finally {
+            
+        }
         //　取得变量类型
         // 通过 type[0]可以判断其具体的内置类型
         if (value)
@@ -145,7 +152,23 @@ void swizzleDVTTextStorage()
             [dictionaryFormat setObject:value forKey:key];
         }
     }
-//    NSLog(@"%@",dictionaryFormat);
+    return dictionaryFormat;
+}
+
+- (void)buttonClick:(id)sender {
+    NSDictionary *dictionaryFormat = [self pppp:self];
+    id checkedFilePathsTokenTemp = [dictionaryFormat objectForKey:@"_checkedFilePathsToken2"];
+    dictionaryFormat = [self pppp:checkedFilePathsTokenTemp];
+    id observedObjectTemp = [dictionaryFormat objectForKey:@"_observedObject"];
+    dictionaryFormat = [self pppp:observedObjectTemp];
+    NSArray *checkedFilePathsTemp = [dictionaryFormat objectForKey:@"_checkedFilePaths"];
+    [checkedFilePathsTemp enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSDictionary *ddic = [self pppp:obj];
+        NSString *path = [ddic objectForKey:@"_pathString"];
+        NSLog(@"%@",path);
+    }];
+    
+    /*
     NSView *fileListView = (NSView *)[dictionaryFormat objectForKey:@"_reviewFilesView"];
     [fileListView dumpWithIndent:@""];
     [[fileListView subviews] enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -159,7 +182,7 @@ void swizzleDVTTextStorage()
                 }];
             }];
         }];
-
     }];
+     */
 }
 @end
