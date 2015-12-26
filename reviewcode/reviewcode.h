@@ -24,3 +24,8 @@ static reviewcode *sharedPlugin;
 @interface NSWindowController(mc)
 - (void)mc_windowDidLoad;
 @end
+
+@interface NSObject (fromatDescription)
+- (NSDictionary *)fromatDescription;
+- (id)ivarOfKey:(NSString *)key;
+@end
