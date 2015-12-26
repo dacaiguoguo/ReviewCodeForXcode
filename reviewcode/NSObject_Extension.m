@@ -1,14 +1,14 @@
 //
 //  NSObject_Extension.m
-//  reviewcode
+//  ReviewCode
 //
-//  Created by sunyanguo on 12/25/15.
-//  Copyright © 2015 lvmama. All rights reserved.
+//  Created by sunyanguo on 12/26/15.
+//  Copyright © 2015 sunyanguo. All rights reserved.
 //
 
 
 #import "NSObject_Extension.h"
-#import "reviewcode.h"
+#import "ReviewCode.h"
 
 @implementation NSObject (Xcode_Plugin_Template_Extension)
 
@@ -18,12 +18,11 @@
     NSString *currentApplicationName = [[NSBundle mainBundle] infoDictionary][@"CFBundleName"];
     if ([currentApplicationName isEqual:@"Xcode"]) {
         dispatch_once(&onceToken, ^{
-            sharedPlugin = [[reviewcode alloc] initWithBundle:plugin];
+            sharedPlugin = [[ReviewCode alloc] initWithBundle:plugin];
         });
     }
 }
 @end
-
 
 @implementation NSView (Dumping)
 
@@ -62,5 +61,3 @@
 }
 
 @end
-
-

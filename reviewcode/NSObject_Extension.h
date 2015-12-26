@@ -1,15 +1,13 @@
 //
 //  NSObject_Extension.h
-//  reviewcode
+//  ReviewCode
 //
-//  Created by sunyanguo on 12/25/15.
-//  Copyright © 2015 lvmama. All rights reserved.
+//  Created by sunyanguo on 12/26/15.
+//  Copyright © 2015 sunyanguo. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 @import AppKit;
-#import "MCXcodeHeaders.h"
-
 
 @interface NSObject (Xcode_Plugin_Template_Extension)
 
@@ -22,8 +20,6 @@
 -(void)dumpWithIndent:(NSString *)indent;
 @end
 
-@interface MCLog : NSObject 
+@interface MCLog : NSObject
 
 @end
-
-
