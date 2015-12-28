@@ -11,6 +11,7 @@
 #import "ReviewCode.h"
 #import <objc/runtime.h>
 #import "Taskit.h"
+#import "Masonry.h"
 
 @implementation NSObject (Xcode_Plugin_Template_Extension)
 
@@ -103,18 +104,18 @@
     NSButton *pushButton = [[NSButton alloc] initWithFrame:NSMakeRect(100, 100, 100, 100)];
     pushButton.bezelStyle = NSRoundedBezelStyle;
     [pushButton  setTarget:self];
-    [pushButton setTitle:@"review"];
+    [pushButton setTitle:@"Review"];
     [pushButton setAction:@selector(buttonClick:)];
-    NSView *vvvv = [[self.window.contentView subviews] objectAtIndex:0];
-    [vvvv addSubview:pushButton];
-    [[vvvv subviews] enumerateObjectsUsingBlock:^(__kindof NSView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj isKindOfClass:[NSButton class]] && idx == 1 ) {
-            pushButton.frame = NSMakeRect(obj.frame.origin.x-obj.frame.size.width*2-20, obj.frame.origin.y, obj.frame.size.width, obj.frame.size.height);
-            pushButton.layer.borderWidth = 1;
-            pushButton.layer.borderColor = [NSColor colorWithDeviceHue:0.02 saturation:0.97 brightness:0.9 alpha:1].CGColor;
-        }
+    NSView *superview = [[self.window.contentView subviews] objectAtIndex:0];
+    [superview addSubview:pushButton];
+    NSButton *calBtn = [self ivarOfKey:@"_cancelButton"];
+    NSEdgeInsets padding = NSEdgeInsetsMake(0, -100, 0, -100);
+    [pushButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(calBtn.mas_top).with.offset(padding.top);
+        make.left.equalTo(calBtn.mas_left).with.offset(padding.left);
+        make.bottom.equalTo(calBtn.mas_bottom).with.offset(-padding.bottom);
+        make.right.equalTo(calBtn.mas_right).with.offset(padding.right);
     }];
-    
 }
 
 - (void)buttonClick:(id)sender {
