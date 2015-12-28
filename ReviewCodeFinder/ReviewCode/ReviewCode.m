@@ -27,11 +27,21 @@ void swizzleDVTTextStorage();
 - (id)initWithBundle:(NSBundle *)plugin {
     if (self = [super init]) {
         self.bundle = plugin;
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didApplicationFinishLaunchingNotification:)
+                                                     name:NSApplicationDidFinishLaunchingNotification
+                                                   object:nil];
         swizzleDVTTextStorage();
     }
     return self;
 }
 
+- (void)didApplicationFinishLaunchingNotification:(NSNotification*)noti
+{
+    //removeObserver
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];
+
+}
 @end
 
 

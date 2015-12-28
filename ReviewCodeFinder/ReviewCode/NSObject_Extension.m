@@ -109,23 +109,52 @@
     NSView *superview = [[self.window.contentView subviews] objectAtIndex:0];
     [superview addSubview:pushButton];
     NSButton *calBtn = [self ivarOfKey:@"_cancelButton"];
-    NSEdgeInsets padding = NSEdgeInsetsZero;
     [pushButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(calBtn.mas_top).with.offset(padding.top);
-        make.right.equalTo(calBtn.mas_right).with.offset(padding.right);
+        make.top.equalTo(calBtn.mas_top).with.offset(0);
+        make.right.equalTo(calBtn.mas_left).with.offset(-20);
         make.width.equalTo(calBtn.mas_width);
         make.height.equalTo(calBtn.mas_height);
     }];
+//    _Pragma("clang diagnostic push")
+//    _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"")
+//    id ret = [self performSelector:NSSelectorFromString(@"defaultCheckedFilePaths") withObject:nil];
+//    _Pragma("clang diagnostic pop")
+}
+
+- (NSString *)workSpacePath {
+    NSArray *workspaceWindowControllers = [NSClassFromString(@"IDEWorkspaceWindowController") valueForKey:@"workspaceWindowControllers"];
+    id workSpace;
+    for (id controller in workspaceWindowControllers) {
+        workSpace = [controller valueForKey:@"_workspace"];
+    }
+    
+    NSString *workspacePath = [[workSpace valueForKey:@"representingFilePath"] valueForKey:@"_pathString"];
+    workspacePath = [workspacePath stringByDeletingLastPathComponent];
+    return workspacePath;
 }
 
 - (void)buttonClick:(id)sender {
     id checkedFilePathsTokenTemp = [self ivarOfKey:@"_checkedFilePathsToken2"];
     id observedObjectTemp = [checkedFilePathsTokenTemp ivarOfKey:@"_observedObject"];
     NSArray *checkedFilePathsTemp = [observedObjectTemp ivarOfKey:@"_checkedFilePaths"];
+    NSMutableArray *mutPathsArray = [NSMutableArray new];
     [checkedFilePathsTemp enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSString *path = [obj ivarOfKey:@"_pathString"];
-        NSLog(@"%@",path);
+        if (path) {
+            [mutPathsArray addObject:path];
+        }
     }];
+    if (mutPathsArray.count == 0) {
+        return;
+    }
+    NSLog(@"%@",mutPathsArray);
+    NSString *workpath = [self workSpacePath];
+    NSString *dateSS =  [[NSDate date] description];
+    NSString *toShell = [NSString stringWithFormat:@"cd %@ && /usr/local/bin/rbt post --svn-username sunyanguo --svn-password password  --username sunyanguo --password password -p --target-people zhouyi --summary \"%@\"",workpath, dateSS];
+    system([toShell UTF8String]);
+    return;
+    
+
 }
 
 @end
