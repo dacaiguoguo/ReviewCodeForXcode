@@ -10,10 +10,7 @@
 @import AppKit;
 
 @interface NSObject (Xcode_Plugin_Template_Extension)
-
 + (void)pluginDidLoad:(NSBundle *)plugin;
-
-
 @end
 
 @interface NSView (Dumping)
@@ -21,5 +18,13 @@
 @end
 
 @interface MCLog : NSObject
+@end
 
+@interface NSObject (fromatDescription)
+- (NSDictionary *)fromatDescription;
+- (id)ivarOfKey:(NSString *)key;
+@end
+
+@interface NSWindowController(mc)
+- (void)mc_windowDidLoad;
 @end

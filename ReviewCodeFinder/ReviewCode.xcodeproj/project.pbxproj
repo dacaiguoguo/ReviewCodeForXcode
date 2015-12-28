@@ -12,6 +12,7 @@
 		9D6017681C2EDF07000D56A0 /* ReviewCode.xcscheme in Resources */ = {isa = PBXBuildFile; fileRef = 9D6017671C2EDF07000D56A0 /* ReviewCode.xcscheme */; };
 		9D60176B1C2EDF07000D56A0 /* ReviewCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D60176A1C2EDF07000D56A0 /* ReviewCode.m */; };
 		9D60176E1C2EDF07000D56A0 /* NSObject_Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D60176D1C2EDF07000D56A0 /* NSObject_Extension.m */; };
+		9DED5AED1C30D96200490B96 /* Taskit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DED5AEC1C30D96200490B96 /* Taskit.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,8 @@
 		9D60176D1C2EDF07000D56A0 /* NSObject_Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSObject_Extension.m; sourceTree = "<group>"; };
 		9D60176F1C2EDF07000D56A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D6017751C2EDF43000D56A0 /* MCXcodeHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCXcodeHeaders.h; sourceTree = "<group>"; };
+		9DED5AEB1C30D96200490B96 /* Taskit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Taskit.h; sourceTree = "<group>"; };
+		9DED5AEC1C30D96200490B96 /* Taskit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Taskit.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,10 +74,11 @@
 			children = (
 				9D6017691C2EDF07000D56A0 /* ReviewCode.h */,
 				9D60176A1C2EDF07000D56A0 /* ReviewCode.m */,
+				9DED5AEB1C30D96200490B96 /* Taskit.h */,
+				9DED5AEC1C30D96200490B96 /* Taskit.m */,
+				9D6017751C2EDF43000D56A0 /* MCXcodeHeaders.h */,
 				9D60176C1C2EDF07000D56A0 /* NSObject_Extension.h */,
 				9D60176D1C2EDF07000D56A0 /* NSObject_Extension.m */,
-				9D6017751C2EDF43000D56A0 /* MCXcodeHeaders.h */,
-				9D60176F1C2EDF07000D56A0 /* Info.plist */,
 				9D6017661C2EDF07000D56A0 /* Supporting Files */,
 			);
 			path = ReviewCode;
@@ -83,6 +87,7 @@
 		9D6017661C2EDF07000D56A0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9D60176F1C2EDF07000D56A0 /* Info.plist */,
 				9D6017671C2EDF07000D56A0 /* ReviewCode.xcscheme */,
 			);
 			name = "Supporting Files";
@@ -155,6 +160,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DED5AED1C30D96200490B96 /* Taskit.m in Sources */,
 				9D60176B1C2EDF07000D56A0 /* ReviewCode.m in Sources */,
 				9D60176E1C2EDF07000D56A0 /* NSObject_Extension.m in Sources */,
 			);
@@ -285,6 +291,7 @@
 				9D6017741C2EDF07000D56A0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

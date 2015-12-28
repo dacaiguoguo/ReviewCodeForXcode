@@ -7,25 +7,17 @@
 //
 
 #import <AppKit/AppKit.h>
-#import "MCXcodeHeaders.h"
 
 @class ReviewCode;
 
 static ReviewCode *sharedPlugin;
 
 @interface ReviewCode : NSObject
+@property (nonatomic, strong, readonly) NSBundle* bundle;
 
 + (instancetype)sharedPlugin;
 - (id)initWithBundle:(NSBundle *)plugin;
 
-@property (nonatomic, strong, readonly) NSBundle* bundle;
 @end
 
-@interface NSWindowController(mc)
-- (void)mc_windowDidLoad;
-@end
 
-@interface NSObject (fromatDescription)
-- (NSDictionary *)fromatDescription;
-- (id)ivarOfKey:(NSString *)key;
-@end
