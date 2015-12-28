@@ -150,11 +150,9 @@
     NSLog(@"%@",mutPathsArray);
     NSString *workpath = [self workSpacePath];
     NSString *dateSS =  [[NSDate date] description];
-    NSString *toShell = [NSString stringWithFormat:@"cd %@ && /usr/local/bin/rbt post --svn-username sunyanguo --svn-password password  --username sunyanguo --password password -p --target-people zhouyi --summary \"%@\"",workpath, dateSS];
+    NSString *toShell = [NSString stringWithFormat:@"cd %@ && /usr/local/bin/rbt post --svn-username sunyanguo --svn-password password  --username sunyanguo --password password -p --target-people zhouyi --summary \"%@\" -o",workpath, dateSS];
     system([toShell UTF8String]);
-    return;
-    
-
+    [self close];
 }
 
 @end
