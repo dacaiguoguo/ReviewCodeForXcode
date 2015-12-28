@@ -109,12 +109,12 @@
     NSView *superview = [[self.window.contentView subviews] objectAtIndex:0];
     [superview addSubview:pushButton];
     NSButton *calBtn = [self ivarOfKey:@"_cancelButton"];
-    NSEdgeInsets padding = NSEdgeInsetsMake(0, -100, 0, -100);
+    NSEdgeInsets padding = NSEdgeInsetsZero;
     [pushButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(calBtn.mas_top).with.offset(padding.top);
-        make.left.equalTo(calBtn.mas_left).with.offset(padding.left);
-        make.bottom.equalTo(calBtn.mas_bottom).with.offset(-padding.bottom);
         make.right.equalTo(calBtn.mas_right).with.offset(padding.right);
+        make.width.equalTo(calBtn.mas_width);
+        make.height.equalTo(calBtn.mas_height);
     }];
 }
 
