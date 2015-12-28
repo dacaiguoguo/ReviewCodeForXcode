@@ -111,9 +111,19 @@
     NSButton *calBtn = [self ivarOfKey:@"_cancelButton"];
     [pushButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(calBtn.mas_top).with.offset(0);
-        make.right.equalTo(calBtn.mas_left).with.offset(-20);
+        make.right.equalTo(calBtn.mas_left).with.offset(-10);
         make.width.equalTo(calBtn.mas_width);
         make.height.equalTo(calBtn.mas_height);
+    }];
+    
+    NSTextField *textField = [[NSTextField alloc] initWithFrame:NSMakeRect(100, 100, 100, 100)];
+    [superview addSubview:textField];
+    textField.tag = 22;
+    [textField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(pushButton.mas_top).with.offset(0);
+        make.right.equalTo(pushButton.mas_left).with.offset(-10);
+        make.width.equalTo(pushButton.mas_width);
+        make.height.equalTo(pushButton.mas_height);
     }];
 //    _Pragma("clang diagnostic push")
 //    _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"")
@@ -134,6 +144,16 @@
 }
 
 - (void)buttonClick:(id)sender {
+    NSView *superview = [[self.window.contentView subviews] objectAtIndex:0];
+    NSTextField *test = [superview viewWithTag:22];
+    NSString *people = [test stringValue];
+    if (people.length < 3) {
+        return;
+    }
+    NSString *commitMessageTemp = [self ivarOfKey:@"_commitMessage"];
+    if (commitMessageTemp.length < 3) {
+        return;
+    }
     id checkedFilePathsTokenTemp = [self ivarOfKey:@"_checkedFilePathsToken2"];
     id observedObjectTemp = [checkedFilePathsTokenTemp ivarOfKey:@"_observedObject"];
     NSArray *checkedFilePathsTemp = [observedObjectTemp ivarOfKey:@"_checkedFilePaths"];
@@ -149,9 +169,26 @@
     }
     NSLog(@"%@",mutPathsArray);
     NSString *workpath = [self workSpacePath];
-    NSString *dateSS =  [[NSDate date] description];
-    NSString *toShell = [NSString stringWithFormat:@"cd %@ && /usr/local/bin/rbt post --svn-username sunyanguo --svn-password password  --username sunyanguo --password password -p --target-people zhouyi --summary \"%@\" -o",workpath, dateSS];
-    system([toShell UTF8String]);
+    Taskit *task = [Taskit task];
+    task.launchPath = @"/usr/local/bin/rbt";
+    task.workingDirectory = workpath;
+    [task.arguments addObjectsFromArray:@[
+                                          @"post",
+                                          @"--svn-username",
+                                          @"sunyanguo",
+                                          @"--svn-password",
+                                          @"password",
+                                          @"--username",
+                                          @"sunyanguo",
+                                          @"--password",
+                                          @"password",
+                                          @"-p",
+                                          @"--target-people",
+                                          people,
+                                          @"--summary",
+                                          commitMessageTemp]];
+    [task launch];
+    [task waitUntilExit];
     [self close];
 }
 
