@@ -101,9 +101,26 @@
 
 - (void)mc_windowDidLoad{
     [self mc_windowDidLoad];
+    NSString *workpath = [self workSpacePath];
+    Taskit *task = [Taskit task];
+    task.launchPath = @"/bin/sh";
+    [task.arguments  addObjectsFromArray:@[@"-c",
+                                           @"svn info | grep URL"]];
+    task.workingDirectory = workpath;
+    __block BOOL isOurSvnProject = NO;
+    task.receivedOutputString = ^void(NSString *output) {
+        NSLog(@"output:%@", output);
+        isOurSvnProject = ([output rangeOfString:@"192.168.0.7/svn/client/"].location != NSNotFound);
+    };
+    [task launch];
+    [task waitUntilExit];
+    if (!isOurSvnProject) {
+        return;
+    }
+    
     NSButton *pushButton = [[NSButton alloc] initWithFrame:NSMakeRect(100, 100, 100, 100)];
-    pushButton.bezelStyle = NSRoundedBezelStyle;
-    [pushButton  setTarget:self];
+    [pushButton setBezelStyle:NSRoundedBezelStyle];
+    [pushButton setTarget:self];
     [pushButton setTitle:@"Review"];
     [pushButton setAction:@selector(buttonClick:)];
     NSView *superview = [[self.window.contentView subviews] objectAtIndex:0];
@@ -154,9 +171,7 @@
     if (commitMessageTemp.length < 3) {
         return;
     }
-    id checkedFilePathsTokenTemp = [self ivarOfKey:@"_checkedFilePathsToken2"];
-    id observedObjectTemp = [checkedFilePathsTokenTemp ivarOfKey:@"_observedObject"];
-    NSArray *checkedFilePathsTemp = [observedObjectTemp ivarOfKey:@"_checkedFilePaths"];
+    NSArray *checkedFilePathsTemp = [[[self ivarOfKey:@"_checkedFilePathsToken2"] ivarOfKey:@"_observedObject"] ivarOfKey:@"_checkedFilePaths"];
     NSMutableArray *mutPathsArray = [NSMutableArray new];
     [checkedFilePathsTemp enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSString *path = [obj ivarOfKey:@"_pathString"];
