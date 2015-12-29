@@ -102,20 +102,22 @@
 - (void)mc_windowDidLoad{
     [self mc_windowDidLoad];
     NSString *workpath = [self workSpacePath];
-    Taskit *task = [Taskit task];
-    task.launchPath = @"/bin/sh";
-    [task.arguments  addObjectsFromArray:@[@"-c",
-                                           @"svn info | grep URL"]];
-    task.workingDirectory = workpath;
-    __block BOOL isOurSvnProject = NO;
-    task.receivedOutputString = ^void(NSString *output) {
-        NSLog(@"output:%@", output);
-        isOurSvnProject = ([output rangeOfString:@"192.168.0.7/svn/client/"].location != NSNotFound);
-    };
-    [task launch];
-    [task waitUntilExit];
-    if (!isOurSvnProject) {
-        return;
+    if (/* DISABLES CODE */ (0)) {
+        Taskit *task = [Taskit task];
+        task.launchPath = @"/bin/sh";
+        [task.arguments  addObjectsFromArray:@[@"-c",
+                                               @"svn info | grep URL"]];
+        task.workingDirectory = workpath;
+        __block BOOL isOurSvnProject = NO;
+        task.receivedOutputString = ^void(NSString *output) {
+            NSLog(@"output:%@", output);
+            isOurSvnProject = ([output rangeOfString:@"192.168.0.7/svn/client/"].location != NSNotFound);
+        };
+        [task launch];
+        [task waitUntilExit];
+        if (!isOurSvnProject) {
+            return;
+        }
     }
     
     NSButton *pushButton = [[NSButton alloc] initWithFrame:NSMakeRect(100, 100, 100, 100)];
@@ -171,9 +173,11 @@
     if (commitMessageTemp.length < 3) {
         return;
     }
-    NSArray *checkedFilePathsTemp = [[[self ivarOfKey:@"_checkedFilePathsToken2"] ivarOfKey:@"_observedObject"] ivarOfKey:@"_checkedFilePaths"];
+    NSArray *checkedFilePathsTemp = [[[self ivarOfKey:@"_checkedFilePathsToken2"]
+                                            ivarOfKey:@"_observedObject"]
+                                            ivarOfKey:@"_checkedFilePaths"];
     NSMutableArray *mutPathsArray = [NSMutableArray new];
-    [checkedFilePathsTemp enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [checkedFilePathsTemp enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSString *path = [obj ivarOfKey:@"_pathString"];
         if (path) {
             [mutPathsArray addObject:path];
@@ -184,6 +188,37 @@
     }
     NSLog(@"%@",mutPathsArray);
     NSString *workpath = [self workSpacePath];
+    if (1) {
+        Taskit *task = [Taskit task];
+        task.launchPath = @"/bin/sh";
+        task.workingDirectory = workpath;
+        [task.arguments  addObjectsFromArray:@[@"-c",
+                                               @"ls -a| grep .reviewboardrc"]];
+        task.workingDirectory = workpath;
+        __block BOOL isHadReviewrc = NO;
+        task.receivedOutputString = ^void(NSString *output) {
+            NSLog(@"output:%@", output);
+            isHadReviewrc = ([output rangeOfString:@".reviewboardrc"].location != NSNotFound);
+        };
+        task.receivedErrorString = ^void(NSString *output) {
+            NSLog(@"outputError:%@", output);
+        };
+        [task launch];
+        [task waitUntilExitWithTimeout:.5];
+        if (!isHadReviewrc) {
+            Taskit *task = [Taskit task];
+            task.launchPath = @"/bin/sh";
+            task.workingDirectory = workpath;
+            [task.arguments  addObjectsFromArray:@[@"-c",
+                                                   @"Yes |rbt setup-repo --server http://192.168.0.23"]];
+            task.workingDirectory = workpath;
+            task.receivedOutputString = ^void(NSString *output) {
+                NSLog(@"output:%@", output);
+            };
+            [task launch];
+            [task waitUntilExitWithTimeout:.5];
+        }
+    }
     Taskit *task = [Taskit task];
     task.launchPath = @"/usr/local/bin/rbt";
     task.workingDirectory = workpath;
@@ -203,7 +238,7 @@
                                           @"--summary",
                                           commitMessageTemp]];
     [task launch];
-    [task waitUntilExit];
+    [task waitUntilExitWithTimeout:5];
     [self close];
 }
 
