@@ -242,4 +242,15 @@
     [self close];
 }
 
+- (NSString *)mc_windowNibName {
+    NSString *ccc = [self mc_windowNibName];
+//    NSLog(@"mc_windowNibName:%@",ccc);
+    return ccc;
+}
+
+- (NSViewController *)mc_contentViewController {
+    NSViewController *ccc = [self mc_contentViewController];
+    NSLog(@"mc_contentViewController:%@",ccc);
+    return ccc;
+}
 @end
