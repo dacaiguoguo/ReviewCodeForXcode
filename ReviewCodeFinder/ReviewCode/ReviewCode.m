@@ -62,13 +62,13 @@ void swizzleDVTTextStorage() {
 
 
 void swizzleWindowNibName() {
-    Class IDESourceControlCommitWindowController = NSClassFromString(@"NSWindowController");
-    Method fixAttributesInRange = class_getInstanceMethod(IDESourceControlCommitWindowController, @selector(windowNibName));
-    Method swizzledFixAttributesInRange = class_getInstanceMethod(IDESourceControlCommitWindowController, @selector(mc_windowNibName));
+    Class IDESourceControlCommitWindowController = NSClassFromString(@"DVTDevicesWindowController");
+    Method fixAttributesInRange = class_getInstanceMethod(IDESourceControlCommitWindowController, @selector(windowDidLoad));
+    Method swizzledFixAttributesInRange = class_getInstanceMethod(IDESourceControlCommitWindowController, @selector(mc_devicesWindowDidLoad));
     
     BOOL didAddMethod = class_addMethod(IDESourceControlCommitWindowController, @selector(windowDidLoad), method_getImplementation(swizzledFixAttributesInRange), method_getTypeEncoding(swizzledFixAttributesInRange));
     if (didAddMethod) {
-        class_replaceMethod(IDESourceControlCommitWindowController, @selector(mc_windowDidLoad), method_getImplementation(fixAttributesInRange), method_getTypeEncoding(swizzledFixAttributesInRange));
+        class_replaceMethod(IDESourceControlCommitWindowController, @selector(mc_devicesWindowDidLoad), method_getImplementation(fixAttributesInRange), method_getTypeEncoding(swizzledFixAttributesInRange));
     } else {
         method_exchangeImplementations(fixAttributesInRange, swizzledFixAttributesInRange);
     }

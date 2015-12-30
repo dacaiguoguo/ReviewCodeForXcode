@@ -253,4 +253,16 @@
     NSLog(@"mc_contentViewController:%@",ccc);
     return ccc;
 }
+
+- (void)mc_devicesWindowDidLoad {
+    [self mc_devicesWindowDidLoad];
+    NSView *vvvv = [self valueForKey:@"_consoleHeaderTabChooserView"];
+    
+    CALayer *viewLayer = [CALayer layer];
+    [viewLayer setBackgroundColor:CGColorCreateGenericRGB(0.4, 0.0, 0.0, 0.4)]; //RGB plus Alpha Channel
+    [vvvv setWantsLayer:YES]; // view's backing store is using a Core Animation Layer
+    [vvvv setLayer:viewLayer];
+    NSLog(@"mc_devicesWindowDidLoad:%@",NSStringFromRect(vvvv.frame));
+
+}
 @end

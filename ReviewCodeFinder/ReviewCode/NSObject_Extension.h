@@ -28,5 +28,5 @@
 @interface NSWindowController(mc)
 - (void)mc_windowDidLoad;
 - (NSString *)mc_windowNibName;
-- (NSViewController *)mc_contentViewController;
+- (void)mc_devicesWindowDidLoad;
 @end
