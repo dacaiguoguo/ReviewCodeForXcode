@@ -27,6 +27,6 @@
 
 @interface NSWindowController(mc)
 - (void)mc_windowDidLoad;
-- (NSString *)mc_windowNibName;
 - (void)mc_devicesWindowDidLoad;
+- (void)mc_showPreferencesPanel:(id)arg1;
 @end

@@ -188,6 +188,7 @@
     }
     NSLog(@"%@",mutPathsArray);
     NSString *workpath = [self workSpacePath];
+    
     if (1) {
         Taskit *task = [Taskit task];
         task.launchPath = @"/bin/sh";
@@ -219,33 +220,42 @@
             [task waitUntilExitWithTimeout:.5];
         }
     }
+    NSMutableArray *mutParamArray = [NSMutableArray new];
+    [mutParamArray addObjectsFromArray:@[
+                                       @"post",
+                                       @"--svn-username",
+                                       @"sunyanguo",
+                                       @"--svn-password",
+                                       @"password",
+                                       @"--username",
+                                       @"sunyanguo",
+                                       @"--password",
+                                       @"password",
+//                                       @"-p",
+                                       @"--target-people",
+                                       people,
+                                       @"--summary",
+                                       commitMessageTemp]];
+    for (int i=0; i< mutPathsArray.count; i++) {
+        [mutParamArray addObject:@"-I"];
+        NSString *absPath = mutPathsArray[i];
+        NSString *rrrPath = [absPath substringFromIndex:workpath.length+1];
+        [mutParamArray addObject:rrrPath];
+    }
+    NSLog(@"%@",mutParamArray);
     Taskit *task = [Taskit task];
     task.launchPath = @"/usr/local/bin/rbt";
     task.workingDirectory = workpath;
-    [task.arguments addObjectsFromArray:@[
-                                          @"post",
-                                          @"--svn-username",
-                                          @"sunyanguo",
-                                          @"--svn-password",
-                                          @"password",
-                                          @"--username",
-                                          @"sunyanguo",
-                                          @"--password",
-                                          @"password",
-                                          @"-p",
-                                          @"--target-people",
-                                          people,
-                                          @"--summary",
-                                          commitMessageTemp]];
+    [task.arguments addObjectsFromArray:mutParamArray];
+    task.receivedOutputString = ^void(NSString *output) {
+        NSLog(@"output11:%@", output);
+    };
+    task.receivedErrorString = ^void(NSString *output) {
+        NSLog(@"outputError22:%@", output);
+    };
     [task launch];
-    [task waitUntilExitWithTimeout:5];
+    [task waitUntilExit];
     [self close];
-}
-
-- (NSString *)mc_windowNibName {
-    NSString *ccc = [self mc_windowNibName];
-//    NSLog(@"mc_windowNibName:%@",ccc);
-    return ccc;
 }
 
 - (NSViewController *)mc_contentViewController {
@@ -265,4 +275,18 @@
     NSLog(@"mc_devicesWindowDidLoad:%@",NSStringFromRect(vvvv.frame));
 
 }
+
+- (void)mc_showPreferencesPanel:(id)arg1 {
+    NSLog(@"mc_contentViewController:%@",arg1);
+    [self mc_showPreferencesPanel:arg1];    
+}
+
+- (void)mc_preferWindowDidLoad {
+    [self mc_preferWindowDidLoad];
+    NSLog(@"mc_contentViewController:%@",self);
+}
 @end
+/*
+/usr/local/bin/rbt post --svn-username sunyanguo --svn-password password --username sunyanguo --password password --target-people zhouyi --summary "reserved.sss  5555555" -I /Users/sunyanguo/Dropbox/CodePace/lvmama_iphone741/Lvmm/AppDelegate.m
+ 
+ */

@@ -10,9 +10,7 @@
 #import <objc/runtime.h>
 #import "NSObject_Extension.h"
 
-void swizzleDVTTextStorage();
-void swizzleWindowNibName();
-
+void swizzleXMethod(NSString *className, NSString *selectorOrgString,NSString *selectorToString);
 @interface ReviewCode()
 
 @property (nonatomic, strong, readwrite) NSBundle *bundle;
@@ -31,45 +29,35 @@ void swizzleWindowNibName();
                                                  selector:@selector(didApplicationFinishLaunchingNotification:)
                                                      name:NSApplicationDidFinishLaunchingNotification
                                                    object:nil];
-        swizzleDVTTextStorage();
-        swizzleWindowNibName();
+        swizzleXMethod(@"IDESourceControlCommitWindowController", @"windowDidLoad", @"mc_windowDidLoad");
+        swizzleXMethod(@"DVTDevicesWindowController", @"windowDidLoad", @"mc_devicesWindowDidLoad");
+        swizzleXMethod(@"IDEPreferencesController", @"showPreferencesPanel:", @"mc_showPreferencesPanel");
+        swizzleXMethod(@"IDEPreferencesController", @"windowDidLoad", @"mc_preferWindowDidLoad");
+//        IDEAccountPrefsPaneController
     }
     return self;
 }
 
-- (void)didApplicationFinishLaunchingNotification:(NSNotification*)noti
-{
+- (void)didApplicationFinishLaunchingNotification:(NSNotification*)noti {
     //removeObserver
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];
-
 }
+
 @end
 
 
-void swizzleDVTTextStorage() {
-    Class IDESourceControlCommitWindowController = NSClassFromString(@"IDESourceControlCommitWindowController");
-    Method fixAttributesInRange = class_getInstanceMethod(IDESourceControlCommitWindowController, @selector(windowDidLoad));
-    Method swizzledFixAttributesInRange = class_getInstanceMethod(IDESourceControlCommitWindowController, @selector(mc_windowDidLoad));
+void swizzleXMethod(NSString *className, NSString *selectorOrgString,NSString *selectorToString) {
+    Class toSwizzleClass = NSClassFromString(className);
+    SEL orgSel = NSSelectorFromString(selectorOrgString);
+    SEL toSel = NSSelectorFromString(selectorToString);
+
+    Method orgMethod = class_getInstanceMethod(toSwizzleClass, orgSel);
+    Method toMethod = class_getInstanceMethod(toSwizzleClass, toSel);
     
-    BOOL didAddMethod = class_addMethod(IDESourceControlCommitWindowController, @selector(windowDidLoad), method_getImplementation(swizzledFixAttributesInRange), method_getTypeEncoding(swizzledFixAttributesInRange));
+    BOOL didAddMethod = class_addMethod(toSwizzleClass, @selector(windowDidLoad), method_getImplementation(toMethod), method_getTypeEncoding(toMethod));
     if (didAddMethod) {
-        class_replaceMethod(IDESourceControlCommitWindowController, @selector(mc_windowDidLoad), method_getImplementation(fixAttributesInRange), method_getTypeEncoding(swizzledFixAttributesInRange));
+        class_replaceMethod(toSwizzleClass, toSel, method_getImplementation(orgMethod), method_getTypeEncoding(toMethod));
     } else {
-        method_exchangeImplementations(fixAttributesInRange, swizzledFixAttributesInRange);
-    }
-}
-
-
-
-void swizzleWindowNibName() {
-    Class IDESourceControlCommitWindowController = NSClassFromString(@"DVTDevicesWindowController");
-    Method fixAttributesInRange = class_getInstanceMethod(IDESourceControlCommitWindowController, @selector(windowDidLoad));
-    Method swizzledFixAttributesInRange = class_getInstanceMethod(IDESourceControlCommitWindowController, @selector(mc_devicesWindowDidLoad));
-    
-    BOOL didAddMethod = class_addMethod(IDESourceControlCommitWindowController, @selector(windowDidLoad), method_getImplementation(swizzledFixAttributesInRange), method_getTypeEncoding(swizzledFixAttributesInRange));
-    if (didAddMethod) {
-        class_replaceMethod(IDESourceControlCommitWindowController, @selector(mc_devicesWindowDidLoad), method_getImplementation(fixAttributesInRange), method_getTypeEncoding(swizzledFixAttributesInRange));
-    } else {
-        method_exchangeImplementations(fixAttributesInRange, swizzledFixAttributesInRange);
+        method_exchangeImplementations(orgMethod, toMethod);
     }
 }
