@@ -95,6 +95,22 @@
     return value;
 }
 
+- (id)mc_sourcePath {
+    id art = [self mc_sourcePath];
+    NSLog(@"art:%@", art);
+    return art;
+}
+
+@end
+
+@implementation NSManagedObject(xxxx)
+
+- (id)mc_provisioningProfiles {
+    id art = [self mc_provisioningProfiles];
+    NSLog(@"mc_provisioningProfiles:%@", art);
+    return art;
+}
+
 @end
 
 @implementation NSWindowController(mc)
@@ -232,6 +248,8 @@
                                        @"--password",
                                        @"password",
 //                                       @"-p",
+                                       @"--open",
+                                       @"--stamp",
                                        @"--target-people",
                                        people,
                                        @"--summary",

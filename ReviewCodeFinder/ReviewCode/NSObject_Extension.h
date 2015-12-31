@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 @import AppKit;
+@import CoreData;
 
 @interface NSObject (Xcode_Plugin_Template_Extension)
 + (void)pluginDidLoad:(NSBundle *)plugin;
@@ -23,6 +24,13 @@
 @interface NSObject (fromatDescription)
 - (NSDictionary *)fromatDescription;
 - (id)ivarOfKey:(NSString *)key;
+- (id)mc_sourcePath;
+
+@end
+@interface NSManagedObject(xxxx)
+
+- (id)mc_provisioningProfiles;
+
 @end
 
 @interface NSWindowController(mc)

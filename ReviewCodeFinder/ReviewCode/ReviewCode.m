@@ -33,7 +33,14 @@ void swizzleXMethod(NSString *className, NSString *selectorOrgString,NSString *s
         swizzleXMethod(@"DVTDevicesWindowController", @"windowDidLoad", @"mc_devicesWindowDidLoad");
         swizzleXMethod(@"IDEPreferencesController", @"showPreferencesPanel:", @"mc_showPreferencesPanel");
         swizzleXMethod(@"IDEPreferencesController", @"windowDidLoad", @"mc_preferWindowDidLoad");
+        swizzleXMethod(@"AAVAssistantContext", @"sourcePath", @"mc_sourcePath");
+//        swizzleXMethod(@"DVTTeamRecord", @"provisioningProfiles", @"mc_provisioningProfiles");
+        swizzleXMethod(@"DVTCertificateRecord", @"provisioningProfiles", @"mc_provisioningProfiles");
+
+//
+// provisioningProfiles
 //        IDEAccountPrefsPaneController
+//          sourcePath
     }
     return self;
 }
