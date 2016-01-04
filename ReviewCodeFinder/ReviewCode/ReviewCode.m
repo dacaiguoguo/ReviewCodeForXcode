@@ -31,11 +31,11 @@ void swizzleXMethod(NSString *className, NSString *selectorOrgString,NSString *s
                                                    object:nil];
         swizzleXMethod(@"IDESourceControlCommitWindowController", @"windowDidLoad", @"mc_windowDidLoad");
         swizzleXMethod(@"DVTDevicesWindowController", @"windowDidLoad", @"mc_devicesWindowDidLoad");
-        swizzleXMethod(@"IDEPreferencesController", @"showPreferencesPanel:", @"mc_showPreferencesPanel");
-        swizzleXMethod(@"IDEPreferencesController", @"windowDidLoad", @"mc_preferWindowDidLoad");
-        swizzleXMethod(@"AAVAssistantContext", @"sourcePath", @"mc_sourcePath");
+//        swizzleXMethod(@"IDEPreferencesController", @"showPreferencesPanel:", @"mc_showPreferencesPanel");
+//        swizzleXMethod(@"IDEPreferencesController", @"windowDidLoad", @"mc_preferWindowDidLoad");
+//        swizzleXMethod(@"AAVAssistantContext", @"sourcePath", @"mc_sourcePath");
 //        swizzleXMethod(@"DVTTeamRecord", @"provisioningProfiles", @"mc_provisioningProfiles");
-        swizzleXMethod(@"DVTCertificateRecord", @"provisioningProfiles", @"mc_provisioningProfiles");
+//        swizzleXMethod(@"DVTCertificateRecord", @"provisioningProfiles", @"mc_provisioningProfiles");
 
 //
 // provisioningProfiles
@@ -61,7 +61,7 @@ void swizzleXMethod(NSString *className, NSString *selectorOrgString,NSString *s
     Method orgMethod = class_getInstanceMethod(toSwizzleClass, orgSel);
     Method toMethod = class_getInstanceMethod(toSwizzleClass, toSel);
     
-    BOOL didAddMethod = class_addMethod(toSwizzleClass, @selector(windowDidLoad), method_getImplementation(toMethod), method_getTypeEncoding(toMethod));
+    BOOL didAddMethod = class_addMethod(toSwizzleClass, orgSel, method_getImplementation(toMethod), method_getTypeEncoding(toMethod));
     if (didAddMethod) {
         class_replaceMethod(toSwizzleClass, toSel, method_getImplementation(orgMethod), method_getTypeEncoding(toMethod));
     } else {

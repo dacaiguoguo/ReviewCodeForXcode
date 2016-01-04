@@ -117,63 +117,39 @@
 
 - (void)mc_windowDidLoad{
     [self mc_windowDidLoad];
-    NSString *workpath = [self workSpacePath];
-    if (/* DISABLES CODE */ (0)) {
-        Taskit *task = [Taskit task];
-        task.launchPath = @"/bin/sh";
-        [task.arguments  addObjectsFromArray:@[@"-c",
-                                               @"svn info | grep URL"]];
-        task.workingDirectory = workpath;
-        __block BOOL isOurSvnProject = NO;
-        task.receivedOutputString = ^void(NSString *output) {
-            NSLog(@"output:%@", output);
-            isOurSvnProject = ([output rangeOfString:@"192.168.0.7/svn/client/"].location != NSNotFound);
-        };
-        [task launch];
-        [task waitUntilExit];
-        if (!isOurSvnProject) {
-            return;
-        }
-    }
-    
-    NSButton *pushButton = [[NSButton alloc] initWithFrame:NSMakeRect(100, 100, 100, 100)];
-    [pushButton setBezelStyle:NSRoundedBezelStyle];
-    [pushButton setTarget:self];
-    [pushButton setTitle:@"Review"];
-    [pushButton setAction:@selector(buttonClick:)];
+    NSButton *reviewButton = [[NSButton alloc] initWithFrame:NSMakeRect(100, 100, 100, 100)];
+    [reviewButton setBezelStyle:NSRoundedBezelStyle];
+    [reviewButton setTarget:self];
+    [reviewButton setTitle:@"Review"];
+    [reviewButton setAction:@selector(buttonClick:)];
     NSView *superview = [[self.window.contentView subviews] objectAtIndex:0];
-    [superview addSubview:pushButton];
+    [superview addSubview:reviewButton];
     NSButton *calBtn = [self ivarOfKey:@"_cancelButton"];
-    [pushButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [reviewButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(calBtn.mas_top).with.offset(0);
         make.right.equalTo(calBtn.mas_left).with.offset(-10);
         make.width.equalTo(calBtn.mas_width);
         make.height.equalTo(calBtn.mas_height);
     }];
     
-    NSTextField *textField = [[NSTextField alloc] initWithFrame:NSMakeRect(100, 100, 100, 100)];
-    [superview addSubview:textField];
-    textField.tag = 22;
-    [textField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(pushButton.mas_top).with.offset(0);
-        make.right.equalTo(pushButton.mas_left).with.offset(-10);
-        make.width.equalTo(pushButton.mas_width).with.offset(100);
-        make.height.equalTo(pushButton.mas_height);
+    NSTextField *peopleTextField = [[NSTextField alloc] initWithFrame:NSMakeRect(100, 100, 100, 100)];
+    [superview addSubview:peopleTextField];
+    peopleTextField.tag = 22;
+    [peopleTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(reviewButton.mas_top).with.offset(0);
+        make.right.equalTo(reviewButton.mas_left).with.offset(-10);
+        make.width.equalTo(reviewButton.mas_width).with.offset(100);
+        make.height.equalTo(reviewButton.mas_height);
     }];
-//    _Pragma("clang diagnostic push")
-//    _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"")
-//    id ret = [self performSelector:NSSelectorFromString(@"defaultCheckedFilePaths") withObject:nil];
-//    _Pragma("clang diagnostic pop")
 }
 
 - (NSString *)workSpacePath {
-    NSArray *workspaceWindowControllers = [NSClassFromString(@"IDEWorkspaceWindowController") valueForKey:@"workspaceWindowControllers"];
+    NSArray *workspaceWindowControllers = [NSClassFromString(@"IDEWorkspaceWindowController") ivarOfKey:@"workspaceWindowControllers"];
     id workSpace;
     for (id controller in workspaceWindowControllers) {
-        workSpace = [controller valueForKey:@"_workspace"];
+        workSpace = [controller ivarOfKey:@"_workspace"];
     }
-    
-    NSString *workspacePath = [[workSpace valueForKey:@"representingFilePath"] valueForKey:@"_pathString"];
+    NSString *workspacePath = [[workSpace ivarOfKey:@"representingFilePath"] ivarOfKey:@"_pathString"];
     workspacePath = [workspacePath stringByDeletingLastPathComponent];
     return workspacePath;
 }
@@ -284,11 +260,10 @@
 
 - (void)mc_devicesWindowDidLoad {
     [self mc_devicesWindowDidLoad];
-    NSView *vvvv = [self valueForKey:@"_consoleHeaderTabChooserView"];
-    
+    NSView *vvvv = [self ivarOfKey:@"_consoleHeaderTabChooserView"];
     CALayer *viewLayer = [CALayer layer];
-    [viewLayer setBackgroundColor:CGColorCreateGenericRGB(0.4, 0.0, 0.0, 0.4)]; //RGB plus Alpha Channel
-    [vvvv setWantsLayer:YES]; // view's backing store is using a Core Animation Layer
+    [viewLayer setBackgroundColor:CGColorCreateGenericRGB(209./255, 209./255, 209./255, 1)];
+    [vvvv setWantsLayer:YES];
     [vvvv setLayer:viewLayer];
     NSLog(@"mc_devicesWindowDidLoad:%@",NSStringFromRect(vvvv.frame));
 
