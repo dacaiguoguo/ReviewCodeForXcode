@@ -103,21 +103,11 @@
 
 @end
 
-@implementation NSManagedObject(xxxx)
-
-- (id)mc_provisioningProfiles {
-    id art = [self mc_provisioningProfiles];
-    NSLog(@"mc_provisioningProfiles:%@", art);
-    return art;
-}
-
-@end
-
 @implementation NSWindowController(mc)
 
 - (void)mc_windowDidLoad{
     [self mc_windowDidLoad];
-    NSButton *reviewButton = [[NSButton alloc] initWithFrame:NSMakeRect(100, 100, 100, 100)];
+    NSButton *reviewButton = [[NSButton alloc] initWithFrame:NSZeroRect];
     [reviewButton setBezelStyle:NSRoundedBezelStyle];
     [reviewButton setTarget:self];
     [reviewButton setTitle:@"Review"];
@@ -132,7 +122,7 @@
         make.height.equalTo(calBtn.mas_height);
     }];
     
-    NSTextField *peopleTextField = [[NSTextField alloc] initWithFrame:NSMakeRect(100, 100, 100, 100)];
+    NSTextField *peopleTextField = [[NSTextField alloc] initWithFrame:NSZeroRect];
     [superview addSubview:peopleTextField];
     peopleTextField.tag = 22;
     [peopleTextField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -290,7 +280,3 @@
 }
 
 @end
-/*
-/usr/local/bin/rbt post --svn-username sunyanguo --svn-password xxxxx --username sunyanguo --password xxxxx --target-people zhouyi --summary "reserved.sss  5555555" -I /Users/sunyanguo/lvmama_iphone741/Lvmm/AppDelegate.m
- 
- */

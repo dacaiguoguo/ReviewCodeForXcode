@@ -11,6 +11,7 @@
 #import "NSObject_Extension.h"
 
 void swizzleXMethod(NSString *className, NSString *selectorOrgString,NSString *selectorToString);
+
 @interface ReviewCode()
 
 @property (nonatomic, strong, readwrite) NSBundle *bundle;
@@ -25,33 +26,13 @@ void swizzleXMethod(NSString *className, NSString *selectorOrgString,NSString *s
 - (id)initWithBundle:(NSBundle *)plugin {
     if (self = [super init]) {
         self.bundle = plugin;
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(didApplicationFinishLaunchingNotification:)
-                                                     name:NSApplicationDidFinishLaunchingNotification
-                                                   object:nil];
         swizzleXMethod(@"IDESourceControlCommitWindowController", @"windowDidLoad", @"mc_windowDidLoad");
         swizzleXMethod(@"DVTDevicesWindowController", @"windowDidLoad", @"mc_devicesWindowDidLoad");
-//        swizzleXMethod(@"IDEPreferencesController", @"showPreferencesPanel:", @"mc_showPreferencesPanel");
-//        swizzleXMethod(@"IDEPreferencesController", @"windowDidLoad", @"mc_preferWindowDidLoad");
-//        swizzleXMethod(@"AAVAssistantContext", @"sourcePath", @"mc_sourcePath");
-//        swizzleXMethod(@"DVTTeamRecord", @"provisioningProfiles", @"mc_provisioningProfiles");
-//        swizzleXMethod(@"DVTCertificateRecord", @"provisioningProfiles", @"mc_provisioningProfiles");
-
-//
-// provisioningProfiles
-//        IDEAccountPrefsPaneController
-//          sourcePath
     }
     return self;
 }
 
-- (void)didApplicationFinishLaunchingNotification:(NSNotification*)noti {
-    //removeObserver
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];
-}
-
 @end
-
 
 void swizzleXMethod(NSString *className, NSString *selectorOrgString,NSString *selectorToString) {
     Class toSwizzleClass = NSClassFromString(className);
