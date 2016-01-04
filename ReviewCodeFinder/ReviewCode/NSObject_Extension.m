@@ -15,8 +15,7 @@
 
 @implementation NSObject (Xcode_Plugin_Template_Extension)
 
-+ (void)pluginDidLoad:(NSBundle *)plugin
-{
++ (void)pluginDidLoad:(NSBundle *)plugin {
     static dispatch_once_t onceToken;
     NSString *currentApplicationName = [[NSBundle mainBundle] infoDictionary][@"CFBundleName"];
     if ([currentApplicationName isEqual:@"Xcode"]) {
@@ -105,7 +104,7 @@
 
 @implementation NSWindowController(mc)
 
-- (void)mc_windowDidLoad{
+- (void)mc_windowDidLoad {
     [self mc_windowDidLoad];
     NSButton *reviewButton = [[NSButton alloc] initWithFrame:NSZeroRect];
     [reviewButton setBezelStyle:NSRoundedBezelStyle];
@@ -260,13 +259,11 @@
 
 - (void)mc_devicesWindowDidLoad {
     [self mc_devicesWindowDidLoad];
-    NSView *vvvv = [self ivarOfKey:@"_consoleHeaderTabChooserView"];
+    NSView *consoleHeaderView = [self ivarOfKey:@"_consoleHeaderTabChooserView"];
     CALayer *viewLayer = [CALayer layer];
     [viewLayer setBackgroundColor:CGColorCreateGenericRGB(209./255, 209./255, 209./255, 1)];
-    [vvvv setWantsLayer:YES];
-    [vvvv setLayer:viewLayer];
-    NSLog(@"mc_devicesWindowDidLoad:%@",NSStringFromRect(vvvv.frame));
-    
+    [consoleHeaderView setWantsLayer:YES];
+    [consoleHeaderView setLayer:viewLayer];
 }
 
 - (void)mc_showPreferencesPanel:(id)arg1 {

@@ -24,7 +24,6 @@
 - (NSDictionary *)fromatDescription;
 - (id)ivarOfKey:(NSString *)key;
 - (id)mc_sourcePath;
-
 @end
 
 @interface NSWindowController(mc)
