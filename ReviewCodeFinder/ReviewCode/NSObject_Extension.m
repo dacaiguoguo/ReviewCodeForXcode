@@ -179,7 +179,6 @@
     if (mutPathsArray.count == 0) {
         return;
     }
-    NSLog(@"%@",mutPathsArray);
     NSString *workpath = [self workSpacePath];
     NSLog(@"%@",workpath);
     [self createReviewboardrcAtPath:workpath];
@@ -220,7 +219,10 @@
 }
 
 - (void)postWithPathArray:(NSArray *)mutPathsArray peopleArray:(NSArray *)peopleArray summary:(NSString *)summary atWorkPath:(NSString *)workpath {
-    NSString *people = peopleArray[0];
+    if (peopleArray.count == 0||mutPathsArray.count==0|| summary.length < 3) {
+        return;
+    }
+    NSString *peoples = [peopleArray componentsJoinedByString:@","];
     NSMutableArray *mutParamArray = [NSMutableArray new];
     [mutParamArray addObjectsFromArray:@[
                                          @"post",
@@ -236,7 +238,7 @@
                                          @"--open",
                                          @"--stamp",
                                          @"--target-people",
-                                         people,
+                                         peoples,
                                          @"--summary",
                                          summary]];
     for (int i=0; i< mutPathsArray.count; i++) {
@@ -251,10 +253,10 @@
     task.workingDirectory = workpath;
     [task.arguments addObjectsFromArray:mutParamArray];
     task.receivedOutputString = ^void(NSString *output) {
-        NSLog(@"output11:%@", output);
+        NSLog(@"output:%@", output);
     };
     task.receivedErrorString = ^void(NSString *output) {
-        NSLog(@"outputError22:%@", output);
+        NSLog(@"outputError:%@", output);
     };
     [task launch];
     [task waitUntilExit];
@@ -289,6 +291,6 @@
 
 @end
 /*
-/usr/local/bin/rbt post --svn-username sunyanguo --svn-password password --username sunyanguo --password password --target-people zhouyi --summary "reserved.sss  5555555" -I /Users/sunyanguo/Dropbox/CodePace/lvmama_iphone741/Lvmm/AppDelegate.m
+/usr/local/bin/rbt post --svn-username sunyanguo --svn-password xxxxx --username sunyanguo --password xxxxx --target-people zhouyi --summary "reserved.sss  5555555" -I /Users/sunyanguo/lvmama_iphone741/Lvmm/AppDelegate.m
  
  */
