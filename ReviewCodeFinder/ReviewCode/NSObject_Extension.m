@@ -161,6 +161,7 @@
     if (people.length < 3) {
         return;
     }
+    NSArray *peoples = [people componentsSeparatedByString:@","];
     NSString *commitMessageTemp = [self ivarOfKey:@"_commitMessage"];
     if (commitMessageTemp.length < 3) {
         return;
@@ -180,56 +181,64 @@
     }
     NSLog(@"%@",mutPathsArray);
     NSString *workpath = [self workSpacePath];
-    
-    if (1) {
+    NSLog(@"%@",workpath);
+    [self createReviewboardrcAtPath:workpath];
+    [self postWithPathArray:mutPathsArray peopleArray:peoples summary:commitMessageTemp atWorkPath:workpath];
+    [self close];
+}
+
+- (void)createReviewboardrcAtPath:(NSString *)workpath {
+    Taskit *task = [Taskit task];
+    task.launchPath = @"/bin/sh";
+    task.workingDirectory = workpath;
+    [task.arguments  addObjectsFromArray:@[@"-c",
+                                           @"ls -a| grep .reviewboardrc"]];
+    task.workingDirectory = workpath;
+    __block BOOL isHadReviewrc = NO;
+    task.receivedOutputString = ^void(NSString *output) {
+        NSLog(@"output:%@", output);
+        isHadReviewrc = ([output rangeOfString:@".reviewboardrc"].location != NSNotFound);
+    };
+    task.receivedErrorString = ^void(NSString *output) {
+        NSLog(@"outputError:%@", output);
+    };
+    [task launch];
+    [task waitUntilExitWithTimeout:.5];
+    if (!isHadReviewrc) {
         Taskit *task = [Taskit task];
         task.launchPath = @"/bin/sh";
         task.workingDirectory = workpath;
         [task.arguments  addObjectsFromArray:@[@"-c",
-                                               @"ls -a| grep .reviewboardrc"]];
+                                               @"Yes |rbt setup-repo --server http://192.168.0.23"]];
         task.workingDirectory = workpath;
-        __block BOOL isHadReviewrc = NO;
         task.receivedOutputString = ^void(NSString *output) {
             NSLog(@"output:%@", output);
-            isHadReviewrc = ([output rangeOfString:@".reviewboardrc"].location != NSNotFound);
-        };
-        task.receivedErrorString = ^void(NSString *output) {
-            NSLog(@"outputError:%@", output);
         };
         [task launch];
         [task waitUntilExitWithTimeout:.5];
-        if (!isHadReviewrc) {
-            Taskit *task = [Taskit task];
-            task.launchPath = @"/bin/sh";
-            task.workingDirectory = workpath;
-            [task.arguments  addObjectsFromArray:@[@"-c",
-                                                   @"Yes |rbt setup-repo --server http://192.168.0.23"]];
-            task.workingDirectory = workpath;
-            task.receivedOutputString = ^void(NSString *output) {
-                NSLog(@"output:%@", output);
-            };
-            [task launch];
-            [task waitUntilExitWithTimeout:.5];
-        }
     }
+}
+
+- (void)postWithPathArray:(NSArray *)mutPathsArray peopleArray:(NSArray *)peopleArray summary:(NSString *)summary atWorkPath:(NSString *)workpath {
+    NSString *people = peopleArray[0];
     NSMutableArray *mutParamArray = [NSMutableArray new];
     [mutParamArray addObjectsFromArray:@[
-                                       @"post",
-                                       @"--svn-username",
-                                       @"sunyanguo",
-                                       @"--svn-password",
-                                       @"password",
-                                       @"--username",
-                                       @"sunyanguo",
-                                       @"--password",
-                                       @"password",
-//                                       @"-p",
-                                       @"--open",
-                                       @"--stamp",
-                                       @"--target-people",
-                                       people,
-                                       @"--summary",
-                                       commitMessageTemp]];
+                                         @"post",
+                                         @"--svn-username",
+                                         @"sunyanguo",
+                                         @"--svn-password",
+                                         @"password",
+                                         @"--username",
+                                         @"sunyanguo",
+                                         @"--password",
+                                         @"password",
+                                         //@"-p",//是否发布
+                                         @"--open",
+                                         @"--stamp",
+                                         @"--target-people",
+                                         people,
+                                         @"--summary",
+                                         summary]];
     for (int i=0; i< mutPathsArray.count; i++) {
         [mutParamArray addObject:@"-I"];
         NSString *absPath = mutPathsArray[i];
@@ -249,7 +258,6 @@
     };
     [task launch];
     [task waitUntilExit];
-    [self close];
 }
 
 - (NSViewController *)mc_contentViewController {
@@ -266,18 +274,19 @@
     [vvvv setWantsLayer:YES];
     [vvvv setLayer:viewLayer];
     NSLog(@"mc_devicesWindowDidLoad:%@",NSStringFromRect(vvvv.frame));
-
+    
 }
 
 - (void)mc_showPreferencesPanel:(id)arg1 {
     NSLog(@"mc_contentViewController:%@",arg1);
-    [self mc_showPreferencesPanel:arg1];    
+    [self mc_showPreferencesPanel:arg1];
 }
 
 - (void)mc_preferWindowDidLoad {
     [self mc_preferWindowDidLoad];
     NSLog(@"mc_contentViewController:%@",self);
 }
+
 @end
 /*
 /usr/local/bin/rbt post --svn-username sunyanguo --svn-password password --username sunyanguo --password password --target-people zhouyi --summary "reserved.sss  5555555" -I /Users/sunyanguo/Dropbox/CodePace/lvmama_iphone741/Lvmm/AppDelegate.m
