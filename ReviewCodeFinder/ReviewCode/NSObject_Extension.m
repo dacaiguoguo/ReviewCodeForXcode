@@ -157,7 +157,7 @@
     [textField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(pushButton.mas_top).with.offset(0);
         make.right.equalTo(pushButton.mas_left).with.offset(-10);
-        make.width.equalTo(pushButton.mas_width);
+        make.width.equalTo(pushButton.mas_width).with.offset(100);
         make.height.equalTo(pushButton.mas_height);
     }];
 //    _Pragma("clang diagnostic push")
