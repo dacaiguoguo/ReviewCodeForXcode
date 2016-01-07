@@ -31,3 +31,7 @@
 - (void)mc_devicesWindowDidLoad;
 - (void)mc_showPreferencesPanel:(id)arg1;
 @end
+
+@interface NSViewController(mc)
+- (void)mc_viewDidLoad;
+@end

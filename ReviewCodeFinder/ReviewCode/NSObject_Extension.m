@@ -277,3 +277,25 @@
 }
 
 @end
+
+@implementation NSViewController (mc)
+
+- (void)mc_viewDidLoad {
+    [self mc_viewDidLoad];
+    NSView *____view = [self ivarOfKey:@"_view"];
+    [____view dumpWithIndent:@""];
+    NSLog(@"mc_viewDidLoad:%@",self);
+    if ([self isKindOfClass:NSClassFromString(@"IDETemplateOptionsAssistant")]) {
+        
+        u_int               count;
+        Method*    methods= class_copyMethodList([self class], &count);
+        for (int i = 0; i < count ; i++)
+        {
+            SEL name = method_getName(methods[i]);
+            NSString *strName = [NSString  stringWithCString:sel_getName(name) encoding:NSUTF8StringEncoding];
+            NSLog(@"%@",strName);
+        }
+    }
+}
+
+@end
