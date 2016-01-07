@@ -116,7 +116,7 @@
     NSButton *calBtn = [self ivarOfKey:@"_cancelButton"];
     [reviewButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(calBtn.mas_top).with.offset(0);
-        make.right.equalTo(calBtn.mas_left).with.offset(-10);
+        make.right.equalTo(calBtn.mas_left).with.offset(-20);
         make.width.equalTo(calBtn.mas_width);
         make.height.equalTo(calBtn.mas_height);
     }];
