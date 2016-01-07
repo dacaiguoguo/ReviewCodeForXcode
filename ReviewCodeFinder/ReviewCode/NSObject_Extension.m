@@ -15,8 +15,7 @@
 
 @implementation NSObject (Xcode_Plugin_Template_Extension)
 
-+ (void)pluginDidLoad:(NSBundle *)plugin
-{
++ (void)pluginDidLoad:(NSBundle *)plugin {
     static dispatch_once_t onceToken;
     NSString *currentApplicationName = [[NSBundle mainBundle] infoDictionary][@"CFBundleName"];
     if ([currentApplicationName isEqual:@"Xcode"]) {
@@ -105,7 +104,7 @@
 
 @implementation NSWindowController(mc)
 
-- (void)mc_windowDidLoad{
+- (void)mc_windowDidLoad {
     [self mc_windowDidLoad];
     NSButton *reviewButton = [[NSButton alloc] initWithFrame:NSZeroRect];
     [reviewButton setBezelStyle:NSRoundedBezelStyle];
@@ -117,7 +116,7 @@
     NSButton *calBtn = [self ivarOfKey:@"_cancelButton"];
     [reviewButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(calBtn.mas_top).with.offset(0);
-        make.right.equalTo(calBtn.mas_left).with.offset(-10);
+        make.right.equalTo(calBtn.mas_left).with.offset(-20);
         make.width.equalTo(calBtn.mas_width);
         make.height.equalTo(calBtn.mas_height);
     }];
@@ -260,13 +259,11 @@
 
 - (void)mc_devicesWindowDidLoad {
     [self mc_devicesWindowDidLoad];
-    NSView *vvvv = [self ivarOfKey:@"_consoleHeaderTabChooserView"];
+    NSView *consoleHeaderView = [self ivarOfKey:@"_consoleHeaderTabChooserView"];
     CALayer *viewLayer = [CALayer layer];
     [viewLayer setBackgroundColor:CGColorCreateGenericRGB(209./255, 209./255, 209./255, 1)];
-    [vvvv setWantsLayer:YES];
-    [vvvv setLayer:viewLayer];
-    NSLog(@"mc_devicesWindowDidLoad:%@",NSStringFromRect(vvvv.frame));
-    
+    [consoleHeaderView setWantsLayer:YES];
+    [consoleHeaderView setLayer:viewLayer];
 }
 
 - (void)mc_showPreferencesPanel:(id)arg1 {
@@ -277,6 +274,28 @@
 - (void)mc_preferWindowDidLoad {
     [self mc_preferWindowDidLoad];
     NSLog(@"mc_contentViewController:%@",self);
+}
+
+@end
+
+@implementation NSViewController (mc)
+
+- (void)mc_viewDidLoad {
+    [self mc_viewDidLoad];
+    NSView *____view = [self ivarOfKey:@"_view"];
+    [____view dumpWithIndent:@""];
+    NSLog(@"mc_viewDidLoad:%@",self);
+    if ([self isKindOfClass:NSClassFromString(@"IDETemplateOptionsAssistant")]) {
+        
+        u_int               count;
+        Method*    methods= class_copyMethodList([self class], &count);
+        for (int i = 0; i < count ; i++)
+        {
+            SEL name = method_getName(methods[i]);
+            NSString *strName = [NSString  stringWithCString:sel_getName(name) encoding:NSUTF8StringEncoding];
+            NSLog(@"%@",strName);
+        }
+    }
 }
 
 @end
