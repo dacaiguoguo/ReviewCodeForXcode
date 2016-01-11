@@ -150,7 +150,17 @@
     if (people.length < 3) {
         return;
     }
-    NSArray *peoples = [people componentsSeparatedByString:@","];
+    NSArray *peoples;
+    NSString *updateId;
+    NSArray *toParams = [people componentsSeparatedByString:@"|"];
+    if (toParams.count > 0) {
+        peoples = [[toParams objectAtIndex:0] componentsSeparatedByString:@","];
+    } else {
+        return;
+    }
+    if (toParams.count > 1) {
+        updateId = [[toParams objectAtIndex:1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    }
     NSString *commitMessageTemp = [self ivarOfKey:@"_commitMessage"];
     if (commitMessageTemp.length < 3) {
         return;
@@ -171,7 +181,8 @@
     NSString *workpath = [self workSpacePath];
     NSLog(@"%@",workpath);
     [self createReviewboardrcAtPath:workpath];
-    [self postWithPathArray:mutPathsArray peopleArray:peoples summary:commitMessageTemp atWorkPath:workpath];
+    
+//    [self postWithPathArray:mutPathsArray peopleArray:peoples summary:commitMessageTemp atWorkPath:workpath updateId:updateId];
     [self close];
 }
 
@@ -207,29 +218,33 @@
     }
 }
 
-- (void)postWithPathArray:(NSArray *)mutPathsArray peopleArray:(NSArray *)peopleArray summary:(NSString *)summary atWorkPath:(NSString *)workpath {
+- (void)postWithPathArray:(NSArray *)mutPathsArray peopleArray:(NSArray *)peopleArray summary:(NSString *)summary atWorkPath:(NSString *)workpath updateId:(NSString *)updateId {
     if (peopleArray.count == 0||mutPathsArray.count==0|| summary.length < 3) {
         return;
     }
     NSString *peoples = [peopleArray componentsJoinedByString:@","];
+    //--review-request-id ID
     NSMutableArray *mutParamArray = [NSMutableArray new];
     [mutParamArray addObjectsFromArray:@[
                                          @"post",
                                          @"--svn-username",
-                                         @"sunyanguo",
+                                         @"xxx",//svn username
                                          @"--svn-password",
-                                         @"password",
+                                         @"xxx",//svn password
                                          @"--username",
-                                         @"sunyanguo",
+                                         @"xxx",//review board username
                                          @"--password",
-                                         @"password",
-                                         //@"-p",//是否发布
+                                         @"xxx",//review board password
+                                         @"-p",//是否发布
                                          @"--open",
                                          @"--stamp",
                                          @"--target-people",
                                          peoples,
                                          @"--summary",
                                          summary]];
+    if (updateId.length > 0) {
+        [mutParamArray addObjectsFromArray:@[@"--review-request-id",updateId]];
+    }
     for (int i=0; i< mutPathsArray.count; i++) {
         [mutParamArray addObject:@"-I"];
         NSString *absPath = mutPathsArray[i];
