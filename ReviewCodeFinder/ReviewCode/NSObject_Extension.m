@@ -228,14 +228,14 @@
     [mutParamArray addObjectsFromArray:@[
                                          @"post",
                                          @"--svn-username",
-                                         @"sunyanguo",
+                                         @"xxx",//svn username
                                          @"--svn-password",
-                                         @"password",
+                                         @"xxx",//svn password
                                          @"--username",
-                                         @"sunyanguo",
+                                         @"xxx",//review board username
                                          @"--password",
-                                         @"password",
-                                         //@"-p",//是否发布
+                                         @"xxx",//review board password
+                                         @"-p",//是否发布
                                          @"--open",
                                          @"--stamp",
                                          @"--target-people",
