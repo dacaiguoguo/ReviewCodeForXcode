@@ -28,7 +28,7 @@ void swizzleXMethod(NSString *className, NSString *selectorOrgString,NSString *s
         self.bundle = plugin;
         swizzleXMethod(@"IDESourceControlCommitWindowController", @"windowDidLoad", @"mc_windowDidLoad");
         swizzleXMethod(@"DVTDevicesWindowController", @"windowDidLoad", @"mc_devicesWindowDidLoad");
-        swizzleXMethod(@"NSViewController", @"viewDidLoad", @"mc_viewDidLoad");
+//        swizzleXMethod(@"NSViewController", @"viewDidLoad", @"mc_viewDidLoad");
     }
     return self;
 }
