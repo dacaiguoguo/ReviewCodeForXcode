@@ -182,7 +182,7 @@
     NSLog(@"%@",workpath);
     [self createReviewboardrcAtPath:workpath];
     
-    [self postWithPathArray:mutPathsArray peopleArray:peoples summary:commitMessageTemp atWorkPath:workpath updateId:updateId];
+//    [self postWithPathArray:mutPathsArray peopleArray:peoples summary:commitMessageTemp atWorkPath:workpath updateId:updateId];
     [self close];
 }
 
