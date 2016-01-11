@@ -10,7 +10,8 @@ Review code is so important for developing, but it is really painful with Xcode.
 https://downloads.reviewboard.org/releases/RBTools/0.7/RBTools-0.7.5.pkg
 ```
 2.combine ReviewCode
-3. restart Xcode load plugin
+
+3.restart Xcode load plugin
 
 ## License
 
