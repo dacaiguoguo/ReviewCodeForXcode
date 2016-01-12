@@ -242,7 +242,8 @@
     NSString *peoples = [peopleArray componentsJoinedByString:@","];
     //--review-request-id ID
     NSMutableArray *mutParamArray = [NSMutableArray new];
-#warning 需要填入SVN账号密码和ReviewBoard的账号密码
+    
+#warning 需要填入SVN账号密码和ReviewBoard的账号密码 password 里包含- 时有问题
     [mutParamArray addObjectsFromArray:@[@"post",
                                          @"--svn-username",
                                          @"sunyanguo",//svn username
