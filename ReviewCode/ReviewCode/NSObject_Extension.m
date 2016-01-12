@@ -182,8 +182,7 @@
     NSLog(@"%@",workpath);
     [self createReviewboardrcAtPath:workpath];
     
-//    [self postWithPathArray:mutPathsArray peopleArray:peoples summary:commitMessageTemp atWorkPath:workpath updateId:updateId];
-    [self close];
+    [self postWithPathArray:mutPathsArray peopleArray:peoples summary:commitMessageTemp atWorkPath:workpath updateId:updateId];
 }
 
 - (void)createReviewboardrcAtPath:(NSString *)workpath {
@@ -197,36 +196,54 @@
     task.receivedOutputString = ^void(NSString *output) {
         NSLog(@"output:%@", output);
         isHadReviewrc = ([output rangeOfString:@".reviewboardrc"].location != NSNotFound);
+        if (!isHadReviewrc) {
+            Taskit *task = [Taskit task];
+            task.launchPath = @"/bin/sh";
+            task.workingDirectory = workpath;
+            [task.arguments  addObjectsFromArray:@[@"-c",
+                                                   @"Yes |rbt setup-repo --server http://192.168.0.23"]];
+            task.workingDirectory = workpath;
+            task.receivedOutputString = ^void(NSString *output) {
+                NSLog(@"output:%@", output);
+            };
+            [task launch];
+            [task waitUntilExitWithTimeout:.5];
+        }
     };
     task.receivedErrorString = ^void(NSString *output) {
         NSLog(@"outputError:%@", output);
     };
     [task launch];
     [task waitUntilExitWithTimeout:.5];
-    if (!isHadReviewrc) {
-        Taskit *task = [Taskit task];
-        task.launchPath = @"/bin/sh";
-        task.workingDirectory = workpath;
-        [task.arguments  addObjectsFromArray:@[@"-c",
-                                               @"Yes |rbt setup-repo --server http://192.168.0.23"]];
-        task.workingDirectory = workpath;
-        task.receivedOutputString = ^void(NSString *output) {
-            NSLog(@"output:%@", output);
-        };
-        [task launch];
-        [task waitUntilExitWithTimeout:.5];
-    }
 }
 
-- (void)postWithPathArray:(NSArray *)mutPathsArray peopleArray:(NSArray *)peopleArray summary:(NSString *)summary atWorkPath:(NSString *)workpath updateId:(NSString *)updateId {
-    if (peopleArray.count == 0||mutPathsArray.count==0|| summary.length < 3) {
-        return;
+- (BOOL)postWithPathArray:(NSArray *)mutPathsArray peopleArray:(NSArray *)peopleArray summary:(NSString *)summary atWorkPath:(NSString *)workpath updateId:(NSString *)updateId {
+    if (peopleArray.count == 0||mutPathsArray.count == 0|| summary.length < 3) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setMessageText:@"error"];
+        [alert setInformativeText:@"请填写Review者名字"];
+        [alert runModal];
+        return NO;
+    }
+    if (mutPathsArray.count == 0|| summary.length < 3) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setMessageText:@"error"];
+        [alert setInformativeText:@"请选择要review的文件"];
+        [alert runModal];
+        return NO;
+    }
+    if (summary.length < 3) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setMessageText:@"error"];
+        [alert setInformativeText:@"请填写Review概述"];
+        [alert runModal];
+        return NO;
     }
     NSString *peoples = [peopleArray componentsJoinedByString:@","];
     //--review-request-id ID
     NSMutableArray *mutParamArray = [NSMutableArray new];
-    [mutParamArray addObjectsFromArray:@[
-                                         @"post",
+#warning 需要填入SVN账号密码和ReviewBoard的账号密码
+    [mutParamArray addObjectsFromArray:@[@"post",
                                          @"--svn-username",
                                          @"xxx",//svn username
                                          @"--svn-password",
@@ -241,7 +258,10 @@
                                          @"--target-people",
                                          peoples,
                                          @"--summary",
-                                         summary]];
+                                         summary,
+                                         @"--description",
+                                         summary
+                                         ]];
     if (updateId.length > 0) {
         [mutParamArray addObjectsFromArray:@[@"--review-request-id",updateId]];
     }
@@ -257,13 +277,30 @@
     task.workingDirectory = workpath;
     [task.arguments addObjectsFromArray:mutParamArray];
     task.receivedOutputString = ^void(NSString *output) {
-        NSLog(@"output:%@", output);
+        NSLog(@"output2:%@", output);
     };
+   __block BOOL success = YES;
     task.receivedErrorString = ^void(NSString *output) {
-        NSLog(@"outputError:%@", output);
+        NSLog(@"outputError2:%@", output);
+        success = NO;
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setMessageText:@"error"];
+        [alert setInformativeText:output];
+        [alert runModal];
     };
     [task launch];
-    [task waitUntilExit];
+    BOOL hitTimeout = [task waitUntilExitWithTimeout:10];
+    if (hitTimeout) {
+        success = YES;
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setMessageText:@"error"];
+        [alert setInformativeText:@"hitTimeout"];
+        [alert runModal];
+    }
+    if (success) {
+        [self close];
+    }
+    return success;
 }
 
 - (NSViewController *)mc_contentViewController {
