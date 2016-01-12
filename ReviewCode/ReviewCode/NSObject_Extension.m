@@ -245,20 +245,19 @@
 #warning 需要填入SVN账号密码和ReviewBoard的账号密码
     [mutParamArray addObjectsFromArray:@[@"post",
                                          @"--svn-username",
-                                         @"xxx",//svn username
+                                         @"sunyanguo",//svn username
                                          @"--svn-password",
-                                         @"xxx",//svn password
+                                         @"password",//svn password
                                          @"--username",
-                                         @"xxx",//review board username
+                                         @"sunyanguo",//review board username
                                          @"--password",
-                                         @"xxx",//review board password
+                                         @"password",//review board password
                                          @"-p",//是否发布
                                          @"--open",
-                                         @"--stamp",
                                          @"--target-people",
                                          peoples,
                                          @"--summary",
-                                         summary,
+                                         [summary stringByReplacingOccurrencesOfString:@"\n" withString:@" "],
                                          @"--description",
                                          summary
                                          ]];
@@ -283,10 +282,15 @@
     task.receivedErrorString = ^void(NSString *output) {
         NSLog(@"outputError2:%@", output);
         success = NO;
-        NSAlert *alert = [[NSAlert alloc] init];
-        [alert setMessageText:@"error"];
-        [alert setInformativeText:output];
-        [alert runModal];
+        if ([output hasSuffix:@""]) {
+            return;
+        }
+        if (output.length > 0) {
+            NSAlert *alert = [[NSAlert alloc] init];
+            [alert setMessageText:@"error"];
+            [alert setInformativeText:output];
+            [alert runModal];
+        }
     };
     [task launch];
     BOOL hitTimeout = [task waitUntilExitWithTimeout:10];
