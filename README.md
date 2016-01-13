@@ -5,9 +5,12 @@
 
 Review code is so important for developing, but it is really painful with Xcode. Now, you can commit review to your reviewBoard service in Xcode. You can just click the review button beside the cancel button in commit code window.
 
-1.install RBTools
+1.install RBTools with python setup.py install
 ```
-https://downloads.reviewboard.org/releases/RBTools/0.7/RBTools-0.7.5.pkg
+git clone https://github.com/dacaiguoguo/rbtools.git
+```
+```
+python setup.py install
 ```
 2.combine ReviewCode
 
