@@ -250,11 +250,11 @@
 #warning 需要填入SVN账号密码和ReviewBoard的账号密码 password 首字母为- 时有问题
     [mutParamArray addObjectsFromArray:@[@"post",
                                          @"--svn-username",
-                                         @"sunyanguo",//svn username
+                                         @"xxxxx",//svn username
                                          @"--svn-password",
-                                         @"ywVYfBt22nAj",//svn password
+                                         @"xxxxx",//svn password
                                          @"--username",
-                                         @"sunyanguo",//review board username
+                                         @"xxxxx",//review board username
                                          @"--password",
                                          @"password",//review board password
                                          @"-p",//是否发布
