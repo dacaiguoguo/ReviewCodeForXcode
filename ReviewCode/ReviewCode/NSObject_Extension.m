@@ -133,14 +133,14 @@
 }
 
 - (NSString *)workSpacePath {
-    NSArray *workspaceWindowControllers = [NSClassFromString(@"IDEWorkspaceWindowController") ivarOfKey:@"workspaceWindowControllers"];
-    id workSpace;
-    for (id controller in workspaceWindowControllers) {
-        workSpace = [controller ivarOfKey:@"_workspace"];
+//#warning workspace 有取错的情况，在同时打开两个目录的工程的时候，需要判断那个时激活的，当前正在用的
+    NSWindowController *currentWindowController = [[NSApp keyWindow] windowController];
+    if ([currentWindowController isKindOfClass:NSClassFromString(@"IDEWorkspaceWindowController")]) {
+        NSString *workspacePath = [[currentWindowController ivarOfKey:@"representingFilePath"] ivarOfKey:@"_pathString"];
+        workspacePath = [workspacePath stringByDeletingLastPathComponent];
+        return workspacePath;
     }
-    NSString *workspacePath = [[workSpace ivarOfKey:@"representingFilePath"] ivarOfKey:@"_pathString"];
-    workspacePath = [workspacePath stringByDeletingLastPathComponent];
-    return workspacePath;
+    return nil;
 }
 
 - (void)buttonClick:(id)sender {
@@ -179,6 +179,9 @@
         return;
     }
     NSString *workpath = [self workSpacePath];
+    if (workpath.length == 0) {
+        return;
+    }
     NSLog(@"%@",workpath);
     [self createReviewboardrcAtPath:workpath];
     
@@ -246,11 +249,11 @@
 #warning 需要填入SVN账号密码和ReviewBoard的账号密码 password 首字母为- 时有问题
     [mutParamArray addObjectsFromArray:@[@"post",
                                          @"--svn-username",
-                                         @"name",//svn username
+                                         @"sunyanguo",//svn username
                                          @"--svn-password",
-                                         @"password",//svn password
+                                         @"ywVYfBt22nAj",//svn password
                                          @"--username",
-                                         @"name",//review board username
+                                         @"sunyanguo",//review board username
                                          @"--password",
                                          @"password",//review board password
                                          @"-p",//是否发布
