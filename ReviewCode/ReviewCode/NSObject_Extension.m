@@ -181,33 +181,19 @@
 }
 
 - (void)createReviewboardrcAtPath:(NSString *)workpath {
+    NSLog(@"will create reviewboardrc");
+    //执行yes 有时候会卡死
     Taskit *task = [Taskit task];
     task.launchPath = @"/bin/sh";
     task.workingDirectory = workpath;
     [task.arguments  addObjectsFromArray:@[@"-c",
-                                           @"ls -a| grep .reviewboardrc"]];
+                                           @"Yes |rbt setup-repo --server http://192.168.0.23"]];
     task.workingDirectory = workpath;
-    __block BOOL isHadReviewrc = NO;
     task.receivedOutputString = ^void(NSString *output) {
-        NSLog(@"output:%@", output);
-        isHadReviewrc = ([output rangeOfString:@".reviewboardrc"].location != NSNotFound);
-        if (!isHadReviewrc) {
-            //执行yes 有时候会卡死
-            Taskit *task = [Taskit task];
-            task.launchPath = @"/bin/sh";
-            task.workingDirectory = workpath;
-            [task.arguments  addObjectsFromArray:@[@"-c",
-                                                   @"Yes |rbt setup-repo --server http://192.168.0.23"]];
-            task.workingDirectory = workpath;
-            task.receivedOutputString = ^void(NSString *output) {
-                NSLog(@"output:%@", output);
-            };
-            [task launch];
-            [task waitUntilExitWithTimeout:.5];
-        }
+        NSLog(@"create reviewboardrc output:%@", output);
     };
     task.receivedErrorString = ^void(NSString *output) {
-        NSLog(@"outputError:%@", output);
+        NSLog(@"create reviewboardrc outputError:%@", output);
     };
     [task launch];
     [task waitUntilExitWithTimeout:.5];
