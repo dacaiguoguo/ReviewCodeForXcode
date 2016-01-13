@@ -196,7 +196,7 @@
         NSLog(@"create reviewboardrc outputError:%@", output);
     };
     [task launch];
-    [task waitUntilExitWithTimeout:.5];
+    [task waitUntilExitWithTimeout:5];
 }
 
 - (void)postWithPathArray:(NSArray *)mutPathsArray peopleArray:(NSArray *)peopleArray summary:(NSString *)summary atWorkPath:(NSString *)workpath updateId:(NSString *)updateId {
