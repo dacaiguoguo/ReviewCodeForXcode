@@ -19,6 +19,17 @@ void swizzleXMethod(NSString *className, NSString *selectorOrgString,NSString *s
 
 @implementation ReviewCode
 
++ (void)pluginDidLoad:(NSBundle *)plugin {
+    static dispatch_once_t onceToken;
+    NSString *currentApplicationName = [[NSBundle mainBundle] infoDictionary][@"CFBundleName"];
+    
+    if ([currentApplicationName isEqual:@"Xcode"]) {
+        dispatch_once(&onceToken, ^{
+            sharedPlugin = [[self alloc] initWithBundle:plugin];
+        });
+    }
+}
+
 + (instancetype)sharedPlugin {
     return sharedPlugin;
 }

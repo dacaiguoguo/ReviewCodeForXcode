@@ -201,6 +201,7 @@
         NSLog(@"output:%@", output);
         isHadReviewrc = ([output rangeOfString:@".reviewboardrc"].location != NSNotFound);
         if (!isHadReviewrc) {
+            //执行yes 有时候会卡死
             Taskit *task = [Taskit task];
             task.launchPath = @"/bin/sh";
             task.workingDirectory = workpath;
@@ -247,17 +248,29 @@
     //--review-request-id ID
     NSMutableArray *mutParamArray = [NSMutableArray new];
     
-#warning 需要填入SVN账号密码和ReviewBoard的账号密码 password 首字母为- 时有问题
+
+    NSDictionary *configDic = [NSDictionary dictionaryWithContentsOfFile:[[ReviewCode sharedPlugin].bundle pathForResource:@"ReviewCodeConfig" ofType:@"plist"]];
+    NSString *svnUserName = configDic[@"svnusername"];
+    NSString *svnPassword = configDic[@"svnpassword"];
+    NSString *reviewboardUsername = configDic[@"reviewboardusername"];
+    NSString *reviewboardPassword = configDic[@"reviewboardpassword"];
+    if (!svnUserName||!svnPassword || !reviewboardUsername || !reviewboardPassword) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setMessageText:@"error"];
+        [alert setInformativeText:@"账号配置不完整"];
+        [alert runModal];
+        return;
+    }
     [mutParamArray addObjectsFromArray:@[@"post",
                                          @"--svn-username",
-                                         @"xxxxx",//svn username
+                                         svnUserName,
                                          @"--svn-password",
-                                         @"xxxxx",//svn password
+                                         svnPassword,// password 首字母为 - 时会找不到password
                                          @"--username",
-                                         @"xxxxx",//review board username
+                                         reviewboardUsername,
                                          @"--password",
-                                         @"password",//review board password
-                                         @"-p",//是否发布
+                                         reviewboardPassword,
+                                         @"-p",
                                          @"--open",
                                          @"--target-people",
                                          peoples,

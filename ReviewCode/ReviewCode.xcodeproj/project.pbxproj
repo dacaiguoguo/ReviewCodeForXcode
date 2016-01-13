@@ -23,6 +23,7 @@
 		9DED5B0F1C30E82500490B96 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DED5B021C30E82500490B96 /* NSLayoutConstraint+MASDebugAdditions.m */; };
 		9DED5B101C30E82500490B96 /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DED5B041C30E82500490B96 /* View+MASAdditions.m */; };
 		9DED5B111C30E82500490B96 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DED5B071C30E82500490B96 /* ViewController+MASAdditions.m */; };
+		9DF4D8501C462D9500CAB5E6 /* ReviewCodeConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9DF4D84F1C462D9500CAB5E6 /* ReviewCodeConfig.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		9DED5B051C30E82500490B96 /* View+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASShorthandAdditions.h"; sourceTree = "<group>"; };
 		9DED5B061C30E82500490B96 /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+MASAdditions.h"; sourceTree = "<group>"; };
 		9DED5B071C30E82500490B96 /* ViewController+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewController+MASAdditions.m"; sourceTree = "<group>"; };
+		9DF4D84F1C462D9500CAB5E6 /* ReviewCodeConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ReviewCodeConfig.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				9D60176A1C2EDF07000D56A0 /* ReviewCode.m */,
 				9D60176C1C2EDF07000D56A0 /* NSObject_Extension.h */,
 				9D60176D1C2EDF07000D56A0 /* NSObject_Extension.m */,
+				9DF4D84F1C462D9500CAB5E6 /* ReviewCodeConfig.plist */,
 				9D6017661C2EDF07000D56A0 /* Supporting Files */,
 			);
 			path = ReviewCode;
@@ -216,6 +219,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D6017681C2EDF07000D56A0 /* ReviewCode.xcscheme in Resources */,
+				9DF4D8501C462D9500CAB5E6 /* ReviewCodeConfig.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
