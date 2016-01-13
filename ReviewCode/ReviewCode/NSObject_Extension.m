@@ -307,7 +307,7 @@
         [alert setInformativeText:@"hitTimeout"];
         [alert runModal];
     }
-    [self close];
+    [self performSelector:NSSelectorFromString(@"cancel:") withObject:nil];
 }
 
 - (NSViewController *)mc_contentViewController {
