@@ -9,6 +9,7 @@ Review code is so important for developing, but it is really painful with Xcode.
 ```
 git clone https://github.com/dacaiguoguo/rbtools.git
 ```
+simply run the following as root:
 ```
 python setup.py install
 ```
