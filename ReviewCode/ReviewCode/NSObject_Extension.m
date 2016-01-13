@@ -124,6 +124,7 @@
     NSTextField *peopleTextField = [[NSTextField alloc] initWithFrame:NSZeroRect];
     [superview addSubview:peopleTextField];
     peopleTextField.tag = 22;
+    peopleTextField.accessibilityIdentifier = [self workSpacePath];
     [peopleTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(reviewButton.mas_top).with.offset(0);
         make.right.equalTo(reviewButton.mas_left).with.offset(-10);
@@ -133,14 +134,14 @@
 }
 
 - (NSString *)workSpacePath {
-//#warning workspace 有取错的情况，在同时打开两个目录的工程的时候，需要判断那个时激活的，当前正在用的
-    NSWindowController *currentWindowController = [[NSApp keyWindow] windowController];
-    if ([currentWindowController isKindOfClass:NSClassFromString(@"IDEWorkspaceWindowController")]) {
-        NSString *workspacePath = [[currentWindowController ivarOfKey:@"representingFilePath"] ivarOfKey:@"_pathString"];
-        workspacePath = [workspacePath stringByDeletingLastPathComponent];
-        return workspacePath;
+    NSArray *workspaceWindowControllers = [NSClassFromString(@"IDEWorkspaceWindowController") valueForKey:@"workspaceWindowControllers"];
+    id workSpace;
+    for (id controller in workspaceWindowControllers) {
+        if ([[controller valueForKey:@"window"] isEqual:[NSApp keyWindow]]) {
+            workSpace = [controller valueForKey:@"_workspace"];
+        }
     }
-    return nil;
+    return [[[workSpace valueForKey:@"representingFilePath"] valueForKey:@"_pathString"] stringByDeletingLastPathComponent];
 }
 
 - (void)buttonClick:(id)sender {
@@ -178,7 +179,7 @@
     if (mutPathsArray.count == 0) {
         return;
     }
-    NSString *workpath = [self workSpacePath];
+    NSString *workpath = test.accessibilityIdentifier;
     if (workpath.length == 0) {
         return;
     }
