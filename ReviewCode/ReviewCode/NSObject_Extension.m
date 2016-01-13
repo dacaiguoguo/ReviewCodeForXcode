@@ -217,40 +217,40 @@
     [task waitUntilExitWithTimeout:.5];
 }
 
-- (BOOL)postWithPathArray:(NSArray *)mutPathsArray peopleArray:(NSArray *)peopleArray summary:(NSString *)summary atWorkPath:(NSString *)workpath updateId:(NSString *)updateId {
+- (void)postWithPathArray:(NSArray *)mutPathsArray peopleArray:(NSArray *)peopleArray summary:(NSString *)summary atWorkPath:(NSString *)workpath updateId:(NSString *)updateId {
     if (peopleArray.count == 0||mutPathsArray.count == 0|| summary.length < 3) {
         NSAlert *alert = [[NSAlert alloc] init];
         [alert setMessageText:@"error"];
         [alert setInformativeText:@"请填写Review者名字"];
         [alert runModal];
-        return NO;
+        return;
     }
     if (mutPathsArray.count == 0|| summary.length < 3) {
         NSAlert *alert = [[NSAlert alloc] init];
         [alert setMessageText:@"error"];
         [alert setInformativeText:@"请选择要review的文件"];
         [alert runModal];
-        return NO;
+        return;
     }
     if (summary.length < 3) {
         NSAlert *alert = [[NSAlert alloc] init];
         [alert setMessageText:@"error"];
         [alert setInformativeText:@"请填写Review概述"];
         [alert runModal];
-        return NO;
+        return;
     }
     NSString *peoples = [peopleArray componentsJoinedByString:@","];
     //--review-request-id ID
     NSMutableArray *mutParamArray = [NSMutableArray new];
     
-#warning 需要填入SVN账号密码和ReviewBoard的账号密码 password 里包含- 时有问题
+#warning 需要填入SVN账号密码和ReviewBoard的账号密码 password 首字母为- 时有问题
     [mutParamArray addObjectsFromArray:@[@"post",
                                          @"--svn-username",
-                                         @"sunyanguo",//svn username
+                                         @"name",//svn username
                                          @"--svn-password",
                                          @"password",//svn password
                                          @"--username",
-                                         @"sunyanguo",//review board username
+                                         @"name",//review board username
                                          @"--password",
                                          @"password",//review board password
                                          @"-p",//是否发布
@@ -279,10 +279,8 @@
     task.receivedOutputString = ^void(NSString *output) {
         NSLog(@"output2:%@", output);
     };
-   __block BOOL success = YES;
     task.receivedErrorString = ^void(NSString *output) {
         NSLog(@"outputError2:%@", output);
-        success = NO;
         if ([output hasSuffix:@""]) {
             return;
         }
@@ -296,16 +294,12 @@
     [task launch];
     BOOL hitTimeout = [task waitUntilExitWithTimeout:10];
     if (hitTimeout) {
-        success = YES;
         NSAlert *alert = [[NSAlert alloc] init];
         [alert setMessageText:@"error"];
         [alert setInformativeText:@"hitTimeout"];
         [alert runModal];
     }
-    if (success) {
-        [self close];
-    }
-    return success;
+    [self close];
 }
 
 - (NSViewController *)mc_contentViewController {
