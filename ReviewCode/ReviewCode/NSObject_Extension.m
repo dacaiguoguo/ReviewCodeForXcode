@@ -15,15 +15,6 @@
 
 @implementation NSObject (Xcode_Plugin_Template_Extension)
 
-+ (void)pluginDidLoad:(NSBundle *)plugin {
-    static dispatch_once_t onceToken;
-    NSString *currentApplicationName = [[NSBundle mainBundle] infoDictionary][@"CFBundleName"];
-    if ([currentApplicationName isEqual:@"Xcode"]) {
-        dispatch_once(&onceToken, ^{
-            sharedPlugin = [[ReviewCode alloc] initWithBundle:plugin];
-        });
-    }
-}
 @end
 
 @implementation NSView (Dumping)
@@ -337,7 +328,7 @@
 - (void)mc_showPreferencesPanel:(id)arg1 {
     NSLog(@"mc_contentViewController:%@",arg1);
     [self mc_showPreferencesPanel:arg1];
-}
+} 
 
 - (void)mc_preferWindowDidLoad {
     [self mc_preferWindowDidLoad];

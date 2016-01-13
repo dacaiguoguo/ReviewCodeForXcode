@@ -23,7 +23,7 @@ void swizzleXMethod(NSString *className, NSString *selectorOrgString,NSString *s
     static dispatch_once_t onceToken;
     NSString *currentApplicationName = [[NSBundle mainBundle] infoDictionary][@"CFBundleName"];
     
-    if ([currentApplicationName isEqual:@"Xcode"]) {
+    if ([currentApplicationName hasPrefix:@"Xcode"]) {
         dispatch_once(&onceToken, ^{
             sharedPlugin = [[self alloc] initWithBundle:plugin];
         });

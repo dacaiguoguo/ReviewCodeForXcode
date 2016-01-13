@@ -10,7 +10,6 @@
 @import AppKit;
 
 @interface NSObject (Xcode_Plugin_Template_Extension)
-+ (void)pluginDidLoad:(NSBundle *)plugin;
 @end
 
 @interface NSView (Dumping)
