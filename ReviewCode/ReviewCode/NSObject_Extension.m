@@ -272,7 +272,10 @@
         [alert setInformativeText:@"hitTimeout"];
         [alert runModal];
     }
+    _Pragma("clang diagnostic push")
+    _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"")
     [self performSelector:NSSelectorFromString(@"cancel:") withObject:nil];
+    _Pragma("clang diagnostic pop")
 }
 
 - (NSViewController *)mc_contentViewController {
