@@ -265,7 +265,7 @@
         }
     };
     [task launch];
-    BOOL hitTimeout = [task waitUntilExitWithTimeout:10];
+    BOOL hitTimeout = [task waitUntilExitWithTimeout:30];
     if (hitTimeout) {
         NSAlert *alert = [[NSAlert alloc] init];
         [alert setMessageText:@"error"];
