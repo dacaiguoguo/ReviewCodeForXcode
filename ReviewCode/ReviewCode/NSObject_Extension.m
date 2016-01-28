@@ -175,28 +175,7 @@
         return;
     }
     NSLog(@"%@",workpath);
-    [self createReviewboardrcAtPath:workpath];
-    
     [self postWithPathArray:mutPathsArray peopleArray:peoples summary:commitMessageTemp atWorkPath:workpath updateId:updateId];
-}
-
-- (void)createReviewboardrcAtPath:(NSString *)workpath {
-    NSLog(@"will create reviewboardrc");
-    //执行yes 有时候会卡死
-    Taskit *task = [Taskit task];
-    task.launchPath = @"/bin/sh";
-    task.workingDirectory = workpath;
-    [task.arguments  addObjectsFromArray:@[@"-c",
-                                           @"Yes |rbt setup-repo --server http://192.168.0.23"]];
-    task.workingDirectory = workpath;
-    task.receivedOutputString = ^void(NSString *output) {
-        NSLog(@"create reviewboardrc output:%@", output);
-    };
-    task.receivedErrorString = ^void(NSString *output) {
-        NSLog(@"create reviewboardrc outputError:%@", output);
-    };
-    [task launch];
-    [task waitUntilExitWithTimeout:5];
 }
 
 - (void)postWithPathArray:(NSArray *)mutPathsArray peopleArray:(NSArray *)peopleArray summary:(NSString *)summary atWorkPath:(NSString *)workpath updateId:(NSString *)updateId {
@@ -265,7 +244,7 @@
         NSString *rrrPath = [absPath substringFromIndex:workpath.length+1];
         [mutParamArray addObject:rrrPath];
     }
-    NSLog(@"%@",mutParamArray);
+    NSLog(@"mutParamArray:%@",mutParamArray);
     Taskit *task = [Taskit task];
     task.launchPath = @"/usr/local/bin/rbt";
     task.workingDirectory = workpath;
