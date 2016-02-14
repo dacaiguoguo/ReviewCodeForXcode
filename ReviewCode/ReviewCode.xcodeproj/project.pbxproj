@@ -27,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9D0EFC981C701BD8009449E8 /* Script.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = Script.sh; sourceTree = "<group>"; };
 		9D60175E1C2EDF07000D56A0 /* ReviewCode.xcplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReviewCode.xcplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D6017611C2EDF07000D56A0 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		9D6017631C2EDF07000D56A0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -123,6 +124,7 @@
 			children = (
 				9DED5AEB1C30D96200490B96 /* Taskit.h */,
 				9DED5AEC1C30D96200490B96 /* Taskit.m */,
+				9D0EFC981C701BD8009449E8 /* Script.sh */,
 				9DED5AEE1C30E82500490B96 /* Masonry */,
 				9D60176F1C2EDF07000D56A0 /* Info.plist */,
 				9D6017671C2EDF07000D56A0 /* ReviewCode.xcscheme */,
