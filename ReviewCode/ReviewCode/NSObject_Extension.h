@@ -34,3 +34,8 @@
 @interface NSViewController(mc)
 - (void)mc_viewDidLoad;
 @end
+
+@interface NSTextView(mc)
+- (void)mc_foldAllMethods:(id)arg1;
+@end
+

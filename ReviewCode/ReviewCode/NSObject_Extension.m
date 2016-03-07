@@ -326,3 +326,12 @@
 }
 
 @end
+
+@implementation NSTextView(mc)
+
+- (void)mc_foldAllMethods:(id)arg1 {
+    NSLog(@"mc_foldAllMethods:%@",arg1);
+    [self mc_foldAllMethods:arg1];
+}
+
+@end
