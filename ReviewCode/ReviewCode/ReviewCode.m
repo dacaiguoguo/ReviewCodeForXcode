@@ -39,7 +39,7 @@ void swizzleXMethod(NSString *className, NSString *selectorOrgString,NSString *s
         self.bundle = plugin;
         swizzleXMethod(@"IDESourceControlCommitWindowController", @"windowDidLoad", @"mc_windowDidLoad");
         swizzleXMethod(@"DVTDevicesWindowController", @"windowDidLoad", @"mc_devicesWindowDidLoad");
-        swizzleXMethod(@"DVTSourceTextView", @"foldAllMethods:", @"mc_foldAllMethods:");
+//        swizzleXMethod(@"DVTSourceTextView", @"foldAllMethods:", @"mc_foldAllMethods:");
 
         
 //        swizzleXMethod(@"NSViewController", @"viewDidLoad", @"mc_viewDidLoad");
