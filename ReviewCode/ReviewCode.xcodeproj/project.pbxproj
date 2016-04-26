@@ -11,7 +11,8 @@
 		9D6017641C2EDF07000D56A0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6017631C2EDF07000D56A0 /* Foundation.framework */; };
 		9D6017681C2EDF07000D56A0 /* ReviewCode.xcscheme in Resources */ = {isa = PBXBuildFile; fileRef = 9D6017671C2EDF07000D56A0 /* ReviewCode.xcscheme */; };
 		9D60176B1C2EDF07000D56A0 /* ReviewCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D60176A1C2EDF07000D56A0 /* ReviewCode.m */; };
-		9D60176E1C2EDF07000D56A0 /* NSObject_Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D60176D1C2EDF07000D56A0 /* NSObject_Extension.m */; };
+		9DB6AC1E1CCF70AB00C28E32 /* NSObject_Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D60176D1C2EDF07000D56A0 /* NSObject_Extension.m */; };
+		9DCBBD141CCF963E008C758E /* Script.sh in Resources */ = {isa = PBXBuildFile; fileRef = 9D0EFC981C701BD8009449E8 /* Script.sh */; };
 		9DED5AED1C30D96200490B96 /* Taskit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DED5AEC1C30D96200490B96 /* Taskit.m */; };
 		9DED5B081C30E82500490B96 /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DED5AF01C30E82500490B96 /* MASCompositeConstraint.m */; };
 		9DED5B091C30E82500490B96 /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DED5AF31C30E82500490B96 /* MASConstraint.m */; };
@@ -220,6 +221,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DCBBD141CCF963E008C758E /* Script.sh in Resources */,
 				9D6017681C2EDF07000D56A0 /* ReviewCode.xcscheme in Resources */,
 				9DF4D8501C462D9500CAB5E6 /* ReviewCodeConfig.plist in Resources */,
 			);
@@ -239,12 +241,12 @@
 				9DED5AED1C30D96200490B96 /* Taskit.m in Sources */,
 				9D60176B1C2EDF07000D56A0 /* ReviewCode.m in Sources */,
 				9DED5B0B1C30E82500490B96 /* MASLayoutConstraint.m in Sources */,
-				9D60176E1C2EDF07000D56A0 /* NSObject_Extension.m in Sources */,
 				9DED5B111C30E82500490B96 /* ViewController+MASAdditions.m in Sources */,
 				9DED5B101C30E82500490B96 /* View+MASAdditions.m in Sources */,
 				9DED5B0C1C30E82500490B96 /* MASViewAttribute.m in Sources */,
 				9DED5B091C30E82500490B96 /* MASConstraint.m in Sources */,
 				9DED5B0A1C30E82500490B96 /* MASConstraintMaker.m in Sources */,
+				9DB6AC1E1CCF70AB00C28E32 /* NSObject_Extension.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

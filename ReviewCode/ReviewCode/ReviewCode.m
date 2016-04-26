@@ -32,6 +32,7 @@ void swizzleXMethod(NSString *className, NSString *selectorOrgString,NSString *s
 
 + (instancetype)sharedPlugin {
     return sharedPlugin;
+    
 }
 
 - (id)initWithBundle:(NSBundle *)plugin {
@@ -39,6 +40,10 @@ void swizzleXMethod(NSString *className, NSString *selectorOrgString,NSString *s
         self.bundle = plugin;
         swizzleXMethod(@"IDESourceControlCommitWindowController", @"windowDidLoad", @"mc_windowDidLoad");
         swizzleXMethod(@"DVTDevicesWindowController", @"windowDidLoad", @"mc_devicesWindowDidLoad");
+//        swizzleXMethod(@"Xcode3BuildPhasesEditor", @"viewDidAppear", @"mc_viewDidAppear");
+        swizzleXMethod(@"NSViewController", @"viewDidAppear", @"mc_viewDidAppear");
+        swizzleXMethod(@"NSViewController", @"capsuleListView:didExpandRow:", @"mc_capsuleListView:didExpandRow:");
+
 //        swizzleXMethod(@"DVTSourceTextView", @"foldAllMethods:", @"mc_foldAllMethods:");
 
         

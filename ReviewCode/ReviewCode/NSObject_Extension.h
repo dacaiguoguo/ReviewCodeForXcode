@@ -33,6 +33,9 @@
 
 @interface NSViewController(mc)
 - (void)mc_viewDidLoad;
+- (void)mc_viewDidAppear;
+//swizzleXMethod(@"Xcode3CopyFilesBuildPhaseViewController", @"viewDidAppear", @"mc_viewDidAppear");
+
 @end
 
 @interface NSTextView(mc)
