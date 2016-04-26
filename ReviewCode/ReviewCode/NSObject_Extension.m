@@ -327,27 +327,22 @@
 
 - (void)mc_viewDidAppear {
     [self mc_viewDidAppear];
-    NSLog(@"mc_viewDidAppear:%@",self);
+//    NSLog(@"mc_viewDidAppear:%@",self);
     if ([self.description rangeOfString:@"Xcode3CompileSourcesBuildPhaseViewController"].location != NSNotFound) {
         double delayInSeconds = 1.8;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            id editer = [self valueForKey:@"_editor"];
-            [[editer valueForKey:@"_phaseViewControllers"] enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if ([obj isKindOfClass:NSClassFromString(@"Xcode3CopyFilesBuildPhaseViewController")]) {
-                    id groupte= [obj valueForKey:@"_group"];
-                    NSArray *childNodes = [groupte valueForKey:@"_childNodes"];
-                    NSMutableArray *mutArray = [NSMutableArray new];
-                    [childNodes enumerateObjectsUsingBlock:^(id  _Nonnull obj2, NSUInteger idx, BOOL * _Nonnull stop) {
-                        NSString *foless =  [[[obj2 valueForKey:@"_buildFile"] valueForKey:@"_buildInfo"] valueForKey:@"_entityIdent"];
-                        id aadf = [foless description];
-                        if (aadf) {
-                            [mutArray addObject:aadf];
-                        }
-                    }];
-                    [mutArray writeToFile:@"/Users/sunyanguo/Desktop/commm.plist" atomically:YES];
+            id groupte= [self valueForKey:@"_group"];
+            NSArray *childNodes = [groupte valueForKey:@"_childNodes"];
+            NSMutableArray *mutArray = [NSMutableArray new];
+            [childNodes enumerateObjectsUsingBlock:^(id  _Nonnull obj2, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSString *foless =  [[[obj2 valueForKey:@"_buildFile"] valueForKey:@"_buildInfo"] valueForKey:@"_entityIdent"];
+                id aadf = [foless description];
+                if (aadf) {
+                    [mutArray addObject:aadf];
                 }
             }];
+            [mutArray writeToFile:@"/Users/sunyanguo/Desktop/commm.plist" atomically:YES];
         });
     }
 
