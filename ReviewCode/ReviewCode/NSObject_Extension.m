@@ -327,43 +327,49 @@
 
 - (void)mc_viewDidAppear {
     [self mc_viewDidAppear];
-//    NSLog(@"mc_viewDidAppear:%@",self);
-//    if ([self.description rangeOfString:@"Xcode3CompileSourcesBuildPhaseViewController"].location != NSNotFound) {
-//        double delayInSeconds = 1.8;
-//        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-//        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-//            id groupte= [self valueForKey:@"_group"];
-//            NSArray *childNodes = [groupte valueForKey:@"_childNodes"];
-//            NSMutableArray *mutArray = [NSMutableArray new];
-//            [childNodes enumerateObjectsUsingBlock:^(id  _Nonnull obj2, NSUInteger idx, BOOL * _Nonnull stop) {
+    NSLog(@"mc_viewDidAppear:%@",self);
+    if ([self.description rangeOfString:@"Xcode3CompileSourcesBuildPhaseViewController"].location != NSNotFound) {
+        double delayInSeconds = 2.8;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            id groupte= [self valueForKey:@"_group"];
+            NSArray *childNodes = [groupte valueForKey:@"_childNodes"];
+            NSMutableArray *mutArray = [NSMutableArray new];
+            [childNodes enumerateObjectsUsingBlock:^(id  _Nonnull obj2, NSUInteger idx, BOOL * _Nonnull stop) {
 //                NSString *foless =  [[[obj2 valueForKey:@"_buildFile"] valueForKey:@"_buildInfo"] valueForKey:@"_entityIdent"];
-//                id aadf = [foless description];
-//                if (aadf) {
-//                    [mutArray addObject:aadf];
-//                }
-//            }];
-//            [mutArray writeToFile:@"/Users/sunyanguo/Desktop/commm.plist" atomically:YES];
-//        });
-//    }
-//
-//    if ([self.description rangeOfString:@"Xcode3ResourcesBuildPhaseViewController"].location != NSNotFound) {
-//        double delayInSeconds = 2.8;
-//        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-//        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-//            id groupte= [self valueForKey:@"_group"];
-//            NSArray *childNodes = [groupte valueForKey:@"_childNodes"];
-//            NSMutableArray *mutArray = [NSMutableArray new];
-//            [childNodes enumerateObjectsUsingBlock:^(id  _Nonnull obj2, NSUInteger idx, BOOL * _Nonnull stop) {
-//                NSString *foless =  [[[obj2 valueForKey:@"_buildFile"] valueForKey:@"_buildInfo"] valueForKey:@"_entityIdent"];
-//                id aadf = [foless description];
-//                if (aadf) {
-//                    [mutArray addObject:aadf];
-//                }
-//            }];
-//            [mutArray writeToFile:@"/Users/sunyanguo/Desktop/commmRs.plist" atomically:YES];
-//            
-//        });
-//    }
+                NSString * aadf = [obj2 description];
+                id toadd = [[aadf componentsSeparatedByString:@":"] lastObject];
+                if (toadd) {
+                    [mutArray addObject:toadd];
+                } else {
+                    NSLog(@"folessfoless:%@",obj2);
+                }
+            }];
+            [mutArray writeToFile:@"/Users/sunyanguo/Desktop/groupCom/commm.plist" atomically:YES];
+        });
+    }
+
+    if ([self.description rangeOfString:@"Xcode3ResourcesBuildPhaseViewController"].location != NSNotFound) {
+        double delayInSeconds = 3.8;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            id groupte= [self valueForKey:@"_group"];
+            NSArray *childNodes = [groupte valueForKey:@"_childNodes"];
+            NSMutableArray *mutArray = [NSMutableArray new];
+            [childNodes enumerateObjectsUsingBlock:^(id  _Nonnull obj2, NSUInteger idx, BOOL * _Nonnull stop) {
+                //                NSString *foless =  [[[obj2 valueForKey:@"_buildFile"] valueForKey:@"_buildInfo"] valueForKey:@"_entityIdent"];
+                NSString * aadf = [obj2 description];
+                id toadd = [[aadf componentsSeparatedByString:@":"] lastObject];
+                if (toadd) {
+                    [mutArray addObject:toadd];
+                } else {
+                    NSLog(@"folessfolessRs:%@",obj2);
+                }
+            }];
+            [mutArray writeToFile:@"/Users/sunyanguo/Desktop/groupCom/commm.plist" atomically:YES];
+            
+        });
+    }
 }
 
 - (void)mc_capsuleListView:(id)arg1 didExpandRow:(long long)arg2 {
