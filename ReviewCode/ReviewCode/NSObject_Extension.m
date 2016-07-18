@@ -268,7 +268,7 @@
     NSButton *testSwitch = [superview viewWithTag:88];
     for (int i=0; i< mutPathsArray.count; i++) {
         NSString *absPath = mutPathsArray[i];
-        if (testSwitch.state == 1  && (![[absPath pathExtension] isEqualToString:@".h"]) && (![[absPath pathExtension] isEqualToString:@".m"])) {
+        if (testSwitch.state == 1  && (![[absPath pathExtension] isEqualToString:@"h"]) && (![[absPath pathExtension] isEqualToString:@"m"])) {
             continue;
         }
         [mutParamArray addObject:@"-I"];
