@@ -132,7 +132,11 @@
             workSpace = [controller valueForKey:@"_workspace"];
         }
     }
-    return [[[workSpace valueForKey:@"representingFilePath"] valueForKey:@"_pathString"] stringByDeletingLastPathComponent];
+    NSString *retPath = [[[workSpace valueForKey:@"representingFilePath"] valueForKey:@"_pathString"] stringByDeletingLastPathComponent];
+    if ([[retPath lastPathComponent] isEqualToString:@"Example"]) {
+        retPath = [retPath stringByDeletingLastPathComponent];
+    }
+    return retPath;
 }
 
 - (void)buttonClick:(id)sender {
