@@ -104,12 +104,30 @@
     [reviewButton setAction:@selector(buttonClick:)];
     NSView *superview = [[self.window.contentView subviews] objectAtIndex:0];
     [superview addSubview:reviewButton];
+    
+    NSButton *switchButton = [[NSButton alloc] initWithFrame:NSZeroRect];
+    [switchButton setButtonType:NSSwitchButton];
+    [switchButton setBezelStyle:NSRoundedBezelStyle];
+    [switchButton setTarget:self];
+    switchButton.tag = 88;
+    [switchButton setTitle:@"only .h .m"];
+    [switchButton setAction:@selector(switchClick:)];
+    [superview addSubview:switchButton];
+    
+    
     NSButton *calBtn = [self ivarOfKey:@"_cancelButton"];
     [reviewButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(calBtn.mas_top).with.offset(0);
         make.right.equalTo(calBtn.mas_left).with.offset(-20);
         make.width.equalTo(calBtn.mas_width);
         make.height.equalTo(calBtn.mas_height);
+    }];
+    
+    [switchButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(reviewButton.mas_top).with.offset(0);
+        make.right.equalTo(reviewButton.mas_left).with.offset(-300);
+        make.width.equalTo(reviewButton.mas_width);
+        make.height.equalTo(reviewButton.mas_height);
     }];
     
     NSTextField *peopleTextField = [[NSTextField alloc] initWithFrame:NSZeroRect];
@@ -137,6 +155,10 @@
         retPath = [retPath stringByDeletingLastPathComponent];
     }
     return retPath;
+}
+
+- (void)switchClick:(NSButton *)sender {
+    NSLog(@"%ld",(long)sender.state);
 }
 
 - (void)buttonClick:(id)sender {
@@ -178,7 +200,7 @@
     if (workpath.length == 0) {
         return;
     }
-    NSLog(@"%@",workpath);
+    NSLog(@"accessibilityIdentifier:%@",workpath);
     [self postWithPathArray:mutPathsArray peopleArray:peoples summary:commitMessageTemp atWorkPath:workpath updateId:updateId];
 }
 
@@ -242,9 +264,14 @@
     if (updateId.length > 0) {
         [mutParamArray addObjectsFromArray:@[@"--review-request-id",updateId]];
     }
+    NSView *superview = [[self.window.contentView subviews] objectAtIndex:0];
+    NSButton *testSwitch = [superview viewWithTag:88];
     for (int i=0; i< mutPathsArray.count; i++) {
-        [mutParamArray addObject:@"-I"];
         NSString *absPath = mutPathsArray[i];
+        if (testSwitch.state == 1  && (![[absPath pathExtension] isEqualToString:@".h"]) && (![[absPath pathExtension] isEqualToString:@".m"])) {
+            continue;
+        }
+        [mutParamArray addObject:@"-I"];
         NSString *rrrPath = [absPath substringFromIndex:workpath.length+1];
         [mutParamArray addObject:rrrPath];
     }
@@ -269,7 +296,7 @@
         }
     };
     [task launch];
-    BOOL hitTimeout = [task waitUntilExitWithTimeout:30];
+    BOOL hitTimeout = [task waitUntilExitWithTimeout:300];
     if (hitTimeout) {
         NSAlert *alert = [[NSAlert alloc] init];
         [alert setMessageText:@"error"];
