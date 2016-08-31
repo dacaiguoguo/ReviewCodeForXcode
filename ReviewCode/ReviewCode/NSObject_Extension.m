@@ -259,8 +259,15 @@
                                          @"--summary",
                                          [summary stringByReplacingOccurrencesOfString:@"\n" withString:@" "],
                                          @"--description",
-                                         summary
+                                         summary,
+                                         @"--svn-show-copies-as-adds",@"y"
                                          ]];
+    /*
+     --svn-show-copies-as-adds y|n
+     Treat copied or moved files as new files.
+     
+     This is only supported in Subversion 1.7+.
+     */
     if (updateId.length > 0) {
         [mutParamArray addObjectsFromArray:@[@"--review-request-id",updateId]];
     }
