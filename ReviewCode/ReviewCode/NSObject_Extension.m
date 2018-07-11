@@ -13,6 +13,13 @@
 #import "Taskit.h"
 #import "Masonry.h"
 
+NSViewController *tabv = nil;
+id rightClickSelected = nil;
+
+@interface DVTAssertingWeakInterposer_ProxyHelperReference
+- (id)representedObjectAddress;
+@end
+
 @implementation NSObject (Xcode_Plugin_Template_Extension)
 
 @end
@@ -56,7 +63,12 @@
 @end
 
 @implementation NSObject (fromatDescription)
-
+- (void)mc_setSelectedItemsFromNameTree:(id)arg1 {
+    [self mc_setSelectedItemsFromNameTree:arg1];
+}
+- (void)mc_updateBoundSelectedObjects {
+    [self mc_updateBoundSelectedObjects];
+}
 - (NSDictionary *)fromatDescription {
     NSMutableDictionary *dictionaryFormat = [NSMutableDictionary dictionary];
     Class cls = [self class];
@@ -90,56 +102,92 @@
     NSLog(@"art:%@", art);
     return art;
 }
+- (void)mc_setTitle:(NSString *)key {
+    [self mc_setTitle:key];
+}
+- (void)mc_layoutTopDown {
+    [self mc_layoutTopDown];
+    NSTextField *tx = [self valueForKey:@"titleField"];
+    NSLog(@"%@", tx.stringValue);
+
+}
+
+- (id)mc_contextMenuSelection {
+    id obj = [self mc_contextMenuSelection];
+    rightClickSelected = obj;
+    NSLog(@"%@", obj);
+    return obj;
+
+}
+- (void)mc_mouseDown:(id)arg2 {
+    [self mc_mouseDown:arg2];
+
+    NSLog(@"mc_mouseDown:%@--",arg2);
+//    Printing description of self->_interposedDelegate->_realObjectInterposer->representedObjectAddress->_expandedItems:
+    DVTAssertingWeakInterposer_ProxyHelperReference *aa = [[self valueForKey:@"_interposedDelegate"] valueForKey:@"_realObjectInterposer"];
+    NSLog(@"mc_mouseDown:%@--",[[aa representedObjectAddress] valueForKey:@"_expandedItems"]);
+
+//    NSSet *ss = [[aa valueForKey:@"representedObjectAddress"] valueForKey:@"_expandedItems"];
+
+}
 
 @end
 
 @implementation NSWindowController(mc)
+- (void)mc_close {
+    [self mc_close];
+}
+- (void)mss_windowDidLoad{
+    [self mss_windowDidLoad];
+}
+
+
 
 - (void)mc_windowDidLoad {
     [self mc_windowDidLoad];
-    NSButton *reviewButton = [[NSButton alloc] initWithFrame:NSZeroRect];
-    [reviewButton setBezelStyle:NSRoundedBezelStyle];
-    [reviewButton setTarget:self];
-    [reviewButton setTitle:@"Review"];
-    [reviewButton setAction:@selector(buttonClick:)];
-    NSView *superview = [[self.window.contentView subviews] objectAtIndex:0];
-    [superview addSubview:reviewButton];
-    
-    NSButton *switchButton = [[NSButton alloc] initWithFrame:NSZeroRect];
-    [switchButton setButtonType:NSSwitchButton];
-    [switchButton setBezelStyle:NSRoundedBezelStyle];
-    [switchButton setTarget:self];
-    switchButton.tag = 88;
-    [switchButton setTitle:@"only .h .m"];
-    [switchButton setAction:@selector(switchClick:)];
-    [superview addSubview:switchButton];
-    
-    
-    NSButton *calBtn = [self ivarOfKey:@"_cancelButton"];
-    [reviewButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(calBtn.mas_top).with.offset(0);
-        make.right.equalTo(calBtn.mas_left).with.offset(-20);
-        make.width.equalTo(calBtn.mas_width);
-        make.height.equalTo(calBtn.mas_height);
-    }];
-    
-    [switchButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(reviewButton.mas_top).with.offset(0);
-        make.right.equalTo(reviewButton.mas_left).with.offset(-300);
-        make.width.equalTo(reviewButton.mas_width);
-        make.height.equalTo(reviewButton.mas_height);
-    }];
-    
-    NSTextField *peopleTextField = [[NSTextField alloc] initWithFrame:NSZeroRect];
-    [superview addSubview:peopleTextField];
-    peopleTextField.tag = 22;
-    peopleTextField.accessibilityIdentifier = [self workSpacePath];
-    [peopleTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(reviewButton.mas_top).with.offset(0);
-        make.right.equalTo(reviewButton.mas_left).with.offset(-10);
-        make.width.equalTo(reviewButton.mas_width).with.offset(100);
-        make.height.equalTo(reviewButton.mas_height);
-    }];
+//    NSButton *reviewButton = [[NSButton alloc] initWithFrame:NSZeroRect];
+//    [reviewButton setBezelStyle:NSRoundedBezelStyle];
+//    [reviewButton setTarget:self];
+//    [reviewButton setTitle:@"Review"];
+//    [reviewButton setAction:@selector(buttonClick:)];
+//    NSView *superview = [[self.window.contentView subviews] objectAtIndex:0];
+//    [superview addSubview:reviewButton];
+//    
+//    NSButton *switchButton = [[NSButton alloc] initWithFrame:NSZeroRect];
+//    [switchButton setButtonType:NSSwitchButton];
+//    [switchButton setBezelStyle:NSRoundedBezelStyle];
+//    [switchButton setTarget:self];
+//    switchButton.tag = 88;
+//    [switchButton setTitle:@"only .h .m"];
+//    [switchButton setAction:@selector(switchClick:)];
+//    [superview addSubview:switchButton];
+//    
+//    
+//    NSButton *calBtn = [self ivarOfKey:@"_cancelButton"];
+//    [reviewButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(calBtn.mas_top).with.offset(0);
+//        make.right.equalTo(calBtn.mas_left).with.offset(-20);
+//        make.width.equalTo(calBtn.mas_width);
+//        make.height.equalTo(calBtn.mas_height);
+//    }];
+//    
+//    [switchButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(reviewButton.mas_top).with.offset(0);
+//        make.right.equalTo(reviewButton.mas_left).with.offset(-300);
+//        make.width.equalTo(reviewButton.mas_width);
+//        make.height.equalTo(reviewButton.mas_height);
+//    }];
+//    
+//    NSTextField *peopleTextField = [[NSTextField alloc] initWithFrame:NSZeroRect];
+//    [superview addSubview:peopleTextField];
+//    peopleTextField.tag = 22;
+//    peopleTextField.accessibilityIdentifier = [self workSpacePath];
+//    [peopleTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(reviewButton.mas_top).with.offset(0);
+//        make.right.equalTo(reviewButton.mas_left).with.offset(-10);
+//        make.width.equalTo(reviewButton.mas_width).with.offset(100);
+//        make.height.equalTo(reviewButton.mas_height);
+//    }];
 }
 
 - (NSString *)workSpacePath {
@@ -330,7 +378,10 @@
     [consoleHeaderView setWantsLayer:YES];
     [consoleHeaderView setLayer:viewLayer];
 }
+- (void)mc_refreshConnectionsData:(id)obj {
+    [self mc_refreshConnectionsData:obj];
 
+}
 - (void)mc_showPreferencesPanel:(id)arg1 {
     NSLog(@"mc_contentViewController:%@",arg1);
     [self mc_showPreferencesPanel:arg1];
@@ -342,6 +393,7 @@
 }
 
 @end
+
 
 @implementation NSViewController (mc)
 
@@ -363,9 +415,20 @@
     }
 }
 
+
 - (void)mc_viewDidAppear {
     [self mc_viewDidAppear];
-    NSLog(@"mc_viewDidAppear:%@",self);
+    if ([self.description containsString:@"IDEWorkspaceTabController"]) {
+        tabv = self;
+    }
+    if ([self.description containsString:@"IBConnectionsViewController"]) {
+        id obj = [NSClassFromString(@"IBConnectionDisplayGroup") new];
+        swizzleXMethod(@"IBConnectionDisplayGroup", @"setTitle:", @"mc_setTitle:");
+                swizzleXMethod(@"IBConnectionPrototypeView", @"layoutTopDown", @"mc_layoutTopDown");
+
+        NSLog(@"mc_viewDidAppear:%@",self.className);
+
+    }
     if ([self.description rangeOfString:@"Xcode3CompileSourcesBuildPhaseViewController"].location != NSNotFound) {
         double delayInSeconds = 2.8;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));

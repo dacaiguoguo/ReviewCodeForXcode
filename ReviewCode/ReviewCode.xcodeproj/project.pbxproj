@@ -12,6 +12,7 @@
 		9D6017681C2EDF07000D56A0 /* ReviewCode.xcscheme in Resources */ = {isa = PBXBuildFile; fileRef = 9D6017671C2EDF07000D56A0 /* ReviewCode.xcscheme */; };
 		9D60176B1C2EDF07000D56A0 /* ReviewCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D60176A1C2EDF07000D56A0 /* ReviewCode.m */; };
 		9DB6AC1E1CCF70AB00C28E32 /* NSObject_Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D60176D1C2EDF07000D56A0 /* NSObject_Extension.m */; };
+		9DC8C9EA20F4DC1A00DE910F /* aa.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DC8C9E920F4DC1A00DE910F /* aa.png */; };
 		9DCBBD141CCF963E008C758E /* Script.sh in Resources */ = {isa = PBXBuildFile; fileRef = 9D0EFC981C701BD8009449E8 /* Script.sh */; };
 		9DED5AED1C30D96200490B96 /* Taskit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DED5AEC1C30D96200490B96 /* Taskit.m */; };
 		9DED5B081C30E82500490B96 /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DED5AF01C30E82500490B96 /* MASCompositeConstraint.m */; };
@@ -38,6 +39,7 @@
 		9D60176C1C2EDF07000D56A0 /* NSObject_Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSObject_Extension.h; sourceTree = "<group>"; };
 		9D60176D1C2EDF07000D56A0 /* NSObject_Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSObject_Extension.m; sourceTree = "<group>"; };
 		9D60176F1C2EDF07000D56A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9DC8C9E920F4DC1A00DE910F /* aa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aa.png; sourceTree = "<group>"; };
 		9DED5AEB1C30D96200490B96 /* Taskit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Taskit.h; sourceTree = "<group>"; };
 		9DED5AEC1C30D96200490B96 /* Taskit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Taskit.m; sourceTree = "<group>"; };
 		9DED5AEF1C30E82500490B96 /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				9DED5AEB1C30D96200490B96 /* Taskit.h */,
 				9DED5AEC1C30D96200490B96 /* Taskit.m */,
 				9D0EFC981C701BD8009449E8 /* Script.sh */,
+				9DC8C9E920F4DC1A00DE910F /* aa.png */,
 				9DED5AEE1C30E82500490B96 /* Masonry */,
 				9D60176F1C2EDF07000D56A0 /* Info.plist */,
 				9D6017671C2EDF07000D56A0 /* ReviewCode.xcscheme */,
@@ -224,6 +227,7 @@
 				9DCBBD141CCF963E008C758E /* Script.sh in Resources */,
 				9D6017681C2EDF07000D56A0 /* ReviewCode.xcscheme in Resources */,
 				9DF4D8501C462D9500CAB5E6 /* ReviewCodeConfig.plist in Resources */,
+				9DC8C9EA20F4DC1A00DE910F /* aa.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

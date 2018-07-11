@@ -38,10 +38,25 @@ void swizzleXMethod(NSString *className, NSString *selectorOrgString,NSString *s
 - (id)initWithBundle:(NSBundle *)plugin {
     if (self = [super init]) {
         self.bundle = plugin;
-        swizzleXMethod(@"IDESourceControlCommitWindowController", @"windowDidLoad", @"mc_windowDidLoad");
-        swizzleXMethod(@"DVTDevicesWindowController", @"windowDidLoad", @"mc_devicesWindowDidLoad");
-//        swizzleXMethod(@"Xcode3BuildPhasesEditor", @"viewDidAppear", @"mc_viewDidAppear");
+//        swizzleXMethod(@"IDESourceControlCommitWindowController", @"windowDidLoad", @"mc_windowDidLoad");
+//        swizzleXMethod(@"IDEWorkspaceTabController", @"refreshConnectionsData:", @"mc_refreshConnectionsData:");
+//        swizzleXMethod(@"IDEAssistantWindowController", @"windowDidLoad:", @"mc_windowDidLoad:");
+        swizzleXMethod(@"IDEWorkspaceTabController", @"viewDidAppear", @"mc_viewDidAppear");
         swizzleXMethod(@"NSViewController", @"viewDidAppear", @"mc_viewDidAppear");
+        swizzleXMethod(@"IDENavigatorOutlineView", @"mouseDown:", @"mc_mouseDown:");
+        swizzleXMethod(@"IDENavigatorOutlineView", @"updateBoundSelectedObjects", @"mc_updateBoundSelectedObjects");
+        swizzleXMethod(@"IDEStructureNavigator", @"_setSelectedItemsFromNameTree:", @"mc_setSelectedItemsFromNameTree:");
+        swizzleXMethod(@"IDEOutlineBasedNavigator", @"contextMenuSelection", @"mc_contextMenuSelection");
+
+
+
+        swizzleXMethod(@"NSWindowController", @"close", @"mc_close");
+        swizzleXMethod(@"NSWindowController", @"windowDidLoad", @"mss_windowDidLoad");
+
+
+
+
+
 //        swizzleXMethod(@"NSViewController", @"capsuleListView:didExpandRow:", @"mc_capsuleListView:didExpandRow:");
 
 //        swizzleXMethod(@"DVTSourceTextView", @"foldAllMethods:", @"mc_foldAllMethods:");
@@ -56,6 +71,8 @@ void swizzleXMethod(NSString *className, NSString *selectorOrgString,NSString *s
 
 void swizzleXMethod(NSString *className, NSString *selectorOrgString,NSString *selectorToString) {
     Class toSwizzleClass = NSClassFromString(className);
+//    id obj = [toSwizzleClass new];
+//    NSLog(@"%@", obj);
     SEL orgSel = NSSelectorFromString(selectorOrgString);
     SEL toSel = NSSelectorFromString(selectorToString);
 
